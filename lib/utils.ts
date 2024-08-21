@@ -8,7 +8,6 @@ export class Utils {
         const form = document.forms[0];
         Array.from(form.elements).slice(0, this.OWNER_FORM_LENGTH).forEach((element) => {
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
-            console.log("TYPE OF: ", typeof(inputElement.name));
             ownerData[inputElement.name] = inputElement.value
         })
         return ownerData
@@ -19,7 +18,6 @@ export class Utils {
         const form = document.forms[0];
         let index = 0;
         Array.from(form.elements).slice(formOffset).forEach((element) => {
-            //console.log(element);
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
             landHolding[inputElement.name] = inputElement.value
             index += 1; 
