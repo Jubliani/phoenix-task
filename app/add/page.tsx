@@ -28,9 +28,11 @@ export default function AddEntry() {
 
     const validateInput = (query: string, errorMsg: string, upperBound: number = Infinity) => {
         let isValid = true
-        if (formRef.current) {
-            const elements = formRef.current.querySelectorAll<HTMLInputElement>(query);
-            elements.forEach((element) => {
+        if (!formRef.current) {
+            return;
+        }
+        const elements = formRef.current.querySelectorAll<HTMLInputElement>(query);
+        elements.forEach((element) => {
             const errorMessage = element.nextElementSibling as HTMLElement;
             const percentage = parseFloat(element.value);
             if (percentage < 0 || percentage > upperBound) {
@@ -40,9 +42,18 @@ export default function AddEntry() {
             } else {
                 errorMessage.textContent = '';
             }
-            })
-        }
+        });
         return isValid
+    }
+
+    const showDataUploadError = (errorMsg: string) => {
+        if (!formRef.current) {
+            return;
+        }
+        const errorPlaceholder = formRef.current.querySelector<HTMLSpanElement>(".errorMsg") as HTMLSpanElement;
+        errorPlaceholder.textContent = errorMsg;
+        errorPlaceholder.style.color = 'red';
+
     }
 
     const validateRoyaltyAndAcres = () => {
@@ -51,19 +62,27 @@ export default function AddEntry() {
         return valid0 && valid1;
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateRoyaltyAndAcres()) {
-            return
+            return;
         } 
-        utils.ParseOwnerAndLandHoldingsForms();
+        const [success, message] = await utils.AppendDataToDatabase();
+        if (success) {
+            showDataUploadError('');
+            alert("Info added successfully!")
+            return;
+        }
+        showDataUploadError(message as string);
+        return;
+
     };
     if (status === "loading") {
         return (
             <span className="text-[#888] text-sm mt-7">Loading...</span>
         )
     } else if (status !== "authenticated") {
-        router.push("/")
+        router.push("/");
         return
     }
     return (
@@ -73,6 +92,7 @@ export default function AddEntry() {
             {landFormList.map(() => (
                 <LandHoldingFormInputs />
             ))}
+        <span className="errorMsg"></span>
         <button
             type="submit"
             className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600"
