@@ -2,12 +2,16 @@
 import LandHoldingForm from "@/components/LandHoldingForm"
 import OwnerForm from "@/components/OwnerForm"
 import Link from "next/link"
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState, useRef } from "react";
 import { Utils } from "@/lib/utils";
 import OwnerFormInputs from "@/components/OwnerFormInputs";
 import LandHoldingFormInputs from "@/components/LandHoldingFormInputs";
 
 export default function AddEntry() {
+    const { status } = useSession();
+    const router = useRouter();
     let utils = new Utils();
     const formRef = useRef<HTMLFormElement | null>(null);
     const [landFormIndex, setLandFormIndex] = useState(0)
@@ -54,7 +58,14 @@ export default function AddEntry() {
         } 
         utils.ParseOwnerAndLandHoldingsForms();
     };
-
+    if (status === "loading") {
+        return (
+            <span className="text-[#888] text-sm mt-7">Loading...</span>
+        )
+    } else if (status !== "authenticated") {
+        router.push("/")
+        return
+    }
     return (
         <div className="max-w-lg mx-auto p-4">
         <form ref={formRef} onSubmit={handleSubmit}>
@@ -79,7 +90,7 @@ export default function AddEntry() {
         >
             Remove Land Holding
         </button>
-        <Link href={"/home"} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+        <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
         </div>
     )
 }

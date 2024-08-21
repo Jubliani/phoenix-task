@@ -14,7 +14,7 @@ export class Utils {
     }
     GetLandHoldingFormInfo(formOffset: number, ownerName: string, ownerAddress: string): any[] {
         let landData: any[] = []
-        let landHolding: { [key: string]: any } = {"Owner": ownerName, "ownerID": `${ownerName}_${ownerAddress}`};
+        let landHolding: { [key: string]: any } = {"Owner": ownerName, "Owner Address": ownerAddress};
         const form = document.forms[0];
         let index = 0;
         Array.from(form.elements).slice(formOffset).forEach((element) => {
@@ -26,7 +26,7 @@ export class Utils {
                 this.AddInferredInfoToLandHolding(landHolding);
                 landData.push(landHolding);
                 index = 0;
-                landHolding = {"Owner": ownerName, "ownerID": `${ownerName}_${ownerAddress}`};
+                landHolding = {"Owner": ownerName, "Owner Address": ownerAddress};
             }
         })
         return landData
