@@ -36,23 +36,23 @@ export class Utils {
         landHolding["Name"] = `${landHolding["Section Name"]}_${landHolding["Legal Entity"]}`
     }
 
-    ReadOwner(ownerName: string, ownerAddress: string): Promise<[boolean, string[] | string | null]> {
+    ReadOwner(ownerName: string, ownerAddress: string, minParam: number, maxParam: number): Promise<[boolean, string[] | string | null]> {
         const query = new URLSearchParams({
             name: ownerName,
             address: ownerAddress
         }).toString();
 
-        return this.FetchHelper(query, 'fetchOwner', 1, 5)
+        return this.FetchHelper(query, 'fetchOwner', minParam, maxParam)
     }
 
-    ReadLand(sectionName: string, legalEntity: string): Promise<[boolean, string[] | string | null]> {
+    ReadLand(sectionName: string, legalEntity: string, minParam: number, maxParam: number): Promise<[boolean, string[] | string | null]> {
         const name = `${sectionName}_${legalEntity}`;
         console.log("NAMMMEIS: ", name)
         const query = new URLSearchParams({
             name: name,
         }).toString();
 
-        return this.FetchHelper(query, 'fetchLand', 3, 10)
+        return this.FetchHelper(query, 'fetchLand', minParam, maxParam)
     }
 
     async FetchHelper(query: string, fetchWhich: string, minValue: number, maxValue: number): Promise<[boolean, string[] | string | null]> {

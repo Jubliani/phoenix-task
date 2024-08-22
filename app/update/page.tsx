@@ -17,17 +17,17 @@ export default function Homepage() {
     const [ownerAddress, setOwnerAddress] = useState('');
     const [legalEntity, setLegalEntity] = useState('');
     const [sectionName, setSectionName] = useState('');
-    const [properties, setProperties] = useState<string[]>([]);
+    const [properties, setProperties] = useState<(string | boolean)[]>([]);
     const [error, setError] = useState('');
 
     const handleSubmitOwner = async (e: React.FormEvent) => {
         e.preventDefault()
-        const result = await utils.ReadOwner(ownerName, ownerAddress)
+        const result = await utils.ReadOwner(ownerName, ownerAddress, 1, 5)
         if (!result[0]) {
             setError(result[1] as string);
         } else {
             setError('');
-            setProperties(result[1] as string[]);
+            setProperties(result[1] as (string | boolean)[]);
             setIsUpdatingOwner(true);
             setIsSearchingOwner(false);
         }
@@ -53,12 +53,14 @@ export default function Homepage() {
 
     const handleSubmitLand = async (e: React.FormEvent) => {
         e.preventDefault()
-        const result = await utils.ReadLand(sectionName, legalEntity)
+        const result = await utils.ReadLand(sectionName, legalEntity, 1, 10)
         if (!result[0]) {
             setError(result[1] as string);
         } else {
+            let landProperties = (result[1] as (string | boolean)[])
+            landProperties.push(true)
             setError('');
-            setProperties(result[1] as string[]);
+            setProperties(landProperties);
             setIsUpdatingLand(true);
             setIsSearchingLand(false);
         }

@@ -6,20 +6,51 @@ type LandHoldingInputProps = {
 };
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
-  properties=['', '', '', '', '', '', 'Class A']
+  properties=['', '', '', '', '', '', '', '', 'Class A', false],
 }) => {
-
-  const [legalEntity, setLegalEntity] = useState(properties[0]);
-  const [netMineralAcres, setNetMineralAcres] = useState(properties[1]);
-  console.log("TYPE OF: ", typeof(properties[1]))
-  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[2]);
-  const [section, setSection] = useState(properties[3]);
-  const [township, setTownship] = useState(properties[4]);
-  const [range, setRange] = useState(properties[5]);
-  const [titleSource, setTitleSource] = useState(properties[6]);
+  console.log("PROERPWEORJWELFJW", properties.at(-1))
+  const [ownerName, setOwnerName] = useState(properties[0]);
+  const [ownerAddress, setOwnerAddress] = useState(properties[1])
+  const [legalEntity, setLegalEntity] = useState(properties[2]);
+  const [netMineralAcres, setNetMineralAcres] = useState(properties[3]);
+  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[4]);
+  const [section, setSection] = useState(properties[5]);
+  const [township, setTownship] = useState(properties[6]);
+  const [range, setRange] = useState(properties[7]);
+  const [titleSource, setTitleSource] = useState(properties[8]);
 
   return (
     <>
+    {properties.at(-1) && (
+      <>
+      <div>
+        <label htmlFor="Owner Name">
+          Owner Name
+        </label>
+        <input
+          name="Owner Name"
+          type="text"
+          value={ownerName}
+          onChange={(e) => setOwnerName(e.target.value)}
+          className="mt-1 mb-1 w-full sm:text-sm p-2"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="Owner Address">
+          Owner Address
+        </label>
+        <input
+          name="Owner Address"
+          type="text"
+          value={ownerAddress}
+          onChange={(e) => setOwnerAddress(e.target.value)}
+          className="mt-1 mb-1 w-full sm:text-sm p-2"
+          required
+        />
+      </div>
+      </>
+    )}
       <div>
         <label htmlFor="Legal Entity">
           Legal Entity
