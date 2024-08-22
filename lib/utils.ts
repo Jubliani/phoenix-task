@@ -148,7 +148,6 @@ export class Utils {
     }
 
     async DeleteLandHolding(landName: string, ownerName: string, ownerAddress: string): Promise<[boolean, string | null]> {
-        console.log("WE GOT PASSED IN: ", landName, ownerName, ownerAddress)
         const response = await fetch("/api/deleteLand", {
             method: "DELETE",
             headers: {

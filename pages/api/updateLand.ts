@@ -10,17 +10,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await client.connect();
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
-            console.log("SJDFLSFDKJLKJF", landHolding, landHolding['Name'], oldName);
             const changedOwners = (landHolding['Owner'] != oldOwnerName || landHolding['Owner Address'] != oldOwnerAddress);
             const existingOwner = await ownerCollection.findOne({
                 'Owner Name': landHolding['Owner'],
                 'Address': landHolding['Owner Address']
             });
-            console.log("EXISTING OWNER", existingOwner, landHolding['Owner'], landHolding['Owner Address']);
             if (!existingOwner) {
-                console.log("CANT UPDATE OWNER, OWNER DOESN'T EXIST")
                 res.status(400).json({ message: "ERROR: Owner doesn't exist!" });
                 throw new Error("ERROR: Owner doesn't exist!")
+            }
+
+            if (landHolding['Name'] != oldName) {
+                const foundExistingLandCollection = await landCollection.findOne({
+                    'Name': landHolding['Name']
+                })
+                if (foundExistingLandCollection) {
+                    res.status(400).json({ message: "ERROR: A land holding with the specified legal entity and section name already exists!" });
+                    throw new Error("ERROR: A land holding with the specified legal entity and section name already exists!")
+                }
             }
 
             await landCollection.updateOne(
