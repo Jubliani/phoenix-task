@@ -1,6 +1,7 @@
 "use client";
 import AddOrUpdateEntry from "@/components/AddOrUpdateEntry";
 import { useState } from "react"
+import Link from "next/link";
 
 export default function Homepage() {
 
@@ -14,17 +15,26 @@ export default function Homepage() {
                     <button onClick={() => setIsUpdatingOwner(true)} className="w-full border border-solid border-black rounded">
                         Update an owner
                     </button>
-                    <button onClick={() => setIsUpdatingOwner(false)} className="w-full border border-solid border-black rounded">
+                    <button onClick={() => setIsUpdatingLand(true)} className="w-full border border-solid border-black rounded">
                         Update a land holding
                     </button>
+                    <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
                 </div>
             </div> 
         )}
         {isUpdatingOwner && (
             <>
-            <AddOrUpdateEntry isUpdating={true} />
+            <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={true}/>
             <button onClick={() => setIsUpdatingOwner(false)} className="w-full border border-solid border-black rounded">
-                Update an owner
+                Back
+            </button>
+            </>
+        )}
+        {isUpdatingLand && (
+            <>
+            <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={false}/>
+            <button onClick={() => setIsUpdatingLand(false)} className="w-full border border-solid border-black rounded">
+                Back
             </button>
             </>
         )}

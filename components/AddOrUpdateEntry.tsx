@@ -121,9 +121,9 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             <button onClick={ RemoveLandForm } className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600">
                 Remove Land Holding
             </button> 
+            <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
             </>
         )}
-        <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
         </div>
     )
 }
