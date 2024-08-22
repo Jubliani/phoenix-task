@@ -2,35 +2,58 @@
 import { useState } from 'react';
 
 type LandHoldingInputProps = {
-    legalEntityVal?: string;
-    netMineralAcresVal?: string;
-    mineralOwnerRoyaltyVal?: string;
-    sectionVal?: string;
-    townshipVal?: string;
-    rangeVal?: string;
-    titleSourceVal?: string;
-  };
+  properties?: any[];
+  key?: number;
+};
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
-    legalEntityVal='',
-    netMineralAcresVal='',
-    mineralOwnerRoyaltyVal='',
-    sectionVal='',
-    townshipVal='',
-    rangeVal='',
-    titleSourceVal='Class A',
+  properties=['', '', '', '', '', '', '', '', 'Class A', false],
 }) => {
-
-  const [legalEntity, setLegalEntity] = useState(legalEntityVal);
-  const [netMineralAcres, setNetMineralAcres] = useState(netMineralAcresVal);
-  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(mineralOwnerRoyaltyVal);
-  const [section, setSection] = useState(sectionVal);
-  const [township, setTownship] = useState(townshipVal);
-  const [range, setRange] = useState(rangeVal);
-  const [titleSource, setTitleSource] = useState(titleSourceVal);
+  
+  const oldOwnerName = properties[0]
+  const oldOwnerAddress = properties[1]
+  const [ownerName, setOwnerName] = useState(properties[0]);
+  const [ownerAddress, setOwnerAddress] = useState(properties[1])
+  const [legalEntity, setLegalEntity] = useState(properties[2]);
+  const [netMineralAcres, setNetMineralAcres] = useState(properties[3]);
+  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[4]);
+  const [section, setSection] = useState(properties[5]);
+  const [township, setTownship] = useState(properties[6]);
+  const [range, setRange] = useState(properties[7]);
+  const [titleSource, setTitleSource] = useState(properties[8]);
 
   return (
     <>
+    {properties.at(-1) && (
+      <>
+      <div>
+        <label htmlFor="Owner">
+          Owner Name
+        </label>
+        <input
+          name="Owner"
+          type="text"
+          value={ownerName}
+          onChange={(e) => setOwnerName(e.target.value)}
+          className="mt-1 mb-1 w-full sm:text-sm p-2"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="Owner Address">
+          Owner Address
+        </label>
+        <input
+          name="Owner Address"
+          type="text"
+          value={ownerAddress}
+          onChange={(e) => setOwnerAddress(e.target.value)}
+          className="mt-1 mb-1 w-full sm:text-sm p-2"
+          required
+        />
+      </div>
+      </>
+    )}
       <div>
         <label htmlFor="Legal Entity">
           Legal Entity

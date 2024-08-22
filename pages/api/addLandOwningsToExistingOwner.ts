@@ -4,30 +4,20 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        const { owner, landHoldings } = req.body;
+        const { landHoldings } = req.body;
         const client = new MongoClient(process.env.MONGODB_DATA_URI as string)
 
         try {
             await client.connect();
 
-            // Choose a name for your collection
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
+            await landCollection.insertMany(landHoldings);
 
-            const existingOwner = await ownerCollection.findOne({
-                'Owner Name': owner['Owner Name'],
-                'Address': owner['Address']
-            });
-
-            if (existingOwner) {
-                res.status(409).json({ message: "ERROR: An owner with the same name and address already exists!" });
-            } else {
-                await ownerCollection.insertOne(owner);
-                if (landHoldings.length > 0) {
-                    await landCollection.insertMany(landHoldings);
-                }
-                res.status(201).json({ message: "Data saved successfully!" });
-            }
+            await ownerCollection.updateOne(
+                { 'Owner Name': landHoldings[0]['Owner'], 'Address': landHoldings[0]['Owner Address'] }, 
+                { $inc: {"Total Number of Land Holdings": +landHoldings.length } }
+            );
 
             res.status(201).json({ message: "Data saved successfully!" });
         } catch (error) {
