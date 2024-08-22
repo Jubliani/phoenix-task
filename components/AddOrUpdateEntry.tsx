@@ -8,12 +8,14 @@ import OwnerFormInputs from "@/components/OwnerFormInputs";
 import LandHoldingFormInputs from "@/components/LandHoldingFormInputs";
 
 interface AddOrUpdateEntryProps {
-    isUpdating: boolean;
-    
+    isUpdating?: boolean;
+    isUpdatingOwner?: boolean;
+    properties?: any[];
+
 }
 
-const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating}) => {
-    const submitButtonText = isUpdating? "Submit": "Update";
+const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[]}) => {
+    const submitButtonText = isUpdating? "Update": "Submit";
     const { status } = useSession();
     const router = useRouter();
     let utils = new Utils();
@@ -98,8 +100,9 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating}) => {
     return (
         <div className="max-w-lg mx-auto p-4">
         <form ref={formRef} onSubmit={handleSubmit}>
-            <OwnerFormInputs />
-            {landFormList.map(() => (
+            {(!isUpdating || isUpdatingOwner) && <OwnerFormInputs properties={properties}/>}
+            {(isUpdating && !isUpdatingOwner) && <LandHoldingFormInputs properties={properties}/>}
+            {!isUpdatingOwner && landFormList.map(() => (
                 <LandHoldingFormInputs />
             ))}
         <span className="errorMsg"></span>

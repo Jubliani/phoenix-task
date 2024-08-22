@@ -2,22 +2,21 @@
 import { useState } from "react";
 
 type OwnerInputsProps = {
-    ownerNameVal?: string;
-    entityTypeVal?: string;
-    ownerTypeVal?: string;
-    addressVal?: string;
+  properties?: any[];
   };
 
-const OwnerFormInputs: React.FC<OwnerInputsProps> = ({
-    ownerNameVal='',
-    entityTypeVal='',
-    ownerTypeVal='',
-    addressVal='',
-}) => {
-  const [ownerName, setOwnerName] = useState(ownerNameVal);
-  const [entityType, setEntityType] = useState(entityTypeVal);
-  const [ownerType, setOwnerType] = useState(ownerTypeVal);
-  const [address, setAddress] = useState(addressVal);
+const OwnerFormInputs: React.FC<OwnerInputsProps> = ({properties=[]}) => {
+  const [ownerName, setOwnerName] = useState('');
+  const [entityType, setEntityType] = useState('');
+  const [ownerType, setOwnerType] = useState('');
+  const [address, setAddress] = useState('');
+
+  if (properties.length > 0) {
+    const setArray = [setOwnerName, setEntityType, setOwnerType, setAddress]
+    for (let i = 0; i < properties.length; i++) {
+      setArray[i](properties[i])
+    }
+  }
 
   return (
     <>

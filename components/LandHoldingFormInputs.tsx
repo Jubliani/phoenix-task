@@ -2,32 +2,29 @@
 import { useState } from 'react';
 
 type LandHoldingInputProps = {
-    legalEntityVal?: string;
-    netMineralAcresVal?: string;
-    mineralOwnerRoyaltyVal?: string;
-    sectionVal?: string;
-    townshipVal?: string;
-    rangeVal?: string;
-    titleSourceVal?: string;
-  };
+  properties?: any[];
+};
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
-    legalEntityVal='',
-    netMineralAcresVal='',
-    mineralOwnerRoyaltyVal='',
-    sectionVal='',
-    townshipVal='',
-    rangeVal='',
-    titleSourceVal='Class A',
+  properties=[]
 }) => {
 
-  const [legalEntity, setLegalEntity] = useState(legalEntityVal);
-  const [netMineralAcres, setNetMineralAcres] = useState(netMineralAcresVal);
-  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(mineralOwnerRoyaltyVal);
-  const [section, setSection] = useState(sectionVal);
-  const [township, setTownship] = useState(townshipVal);
-  const [range, setRange] = useState(rangeVal);
-  const [titleSource, setTitleSource] = useState(titleSourceVal);
+  const [legalEntity, setLegalEntity] = useState('');
+  const [netMineralAcres, setNetMineralAcres] = useState('');
+  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState('');
+  const [section, setSection] = useState('');
+  const [township, setTownship] = useState('');
+  const [range, setRange] = useState('');
+  const [titleSource, setTitleSource] = useState('Class A');
+
+  if (properties.length > 0) {
+    const setArray = [setLegalEntity, setNetMineralAcres, setMineralOwnerRoyalty, setSection,
+      setTownship, setRange, setTitleSource
+    ]
+    for (let i = 0; i < properties.length; i++) {
+      setArray[i](properties[i])
+    }
+  }
 
   return (
     <>
