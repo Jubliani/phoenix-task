@@ -70,14 +70,18 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         return valid0 && valid1;
     }
 
-    const updateOwner = async () => {
-        const [success, message] = await utils.PutOwner(utils.GetOwnerFormInfo(), properties[0], properties[3]);
+    const handleSuccessOrError = (success: boolean, message: string | null) => {
         if (success) {
             showDataUploadError('');
-            alert("Owner updated successfully!")
+            alert("Land updated successfully!")
             return;
         }
         showDataUploadError(message as string);
+    }
+
+    const updateOwner = async () => {
+        const [success, message] = await utils.PutOwner(utils.GetOwnerFormInfo(), properties[0], properties[3]);
+        handleSuccessOrError(success, message)
     }
 
     const updateLand = async () => {
@@ -90,12 +94,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         const [success, message] = await utils.PutLand(landForm,
             properties[0], properties[1], `${properties[5]}-${properties[6]}-${properties[7]}_${properties[2]}`
         );
-        if (success) {
-            showDataUploadError('');
-            alert("Land updated successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, message)
     }
 
     const addNewOwnerAndPossibleLandHoldings = async () => {
@@ -103,12 +102,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         } 
         const [success, message] = await utils.AddNewOwnerAndLandOwningsToDatabase();
-        if (success) {
-            showDataUploadError('');
-            alert("Info added successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, message)
     }
 
     const addLandToOwner = async () => {
@@ -116,12 +110,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         } 
         const [success, message] = await utils.AddLandOwningToDatabase(properties[0], properties[1])
-        if (success) {
-            showDataUploadError('');
-            alert("Land added successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, message)
     }
 
     const handleSubmit = (e: React.FormEvent) => {
