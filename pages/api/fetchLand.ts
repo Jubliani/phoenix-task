@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { name } = req.query;
     const query = { 'Name': name };
     await fetch("land", query, res, "Land holding");
-  } else {
-    res.status(405).json({ message: "Method not allowed!" });
   }
+  res.status(405).json({ message: "Method not allowed!" });
 }

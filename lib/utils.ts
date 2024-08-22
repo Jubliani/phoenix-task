@@ -82,7 +82,6 @@ export class Utils {
 
     async PutLand(landHolding: { [key: string]: any }, oldOwnerName: string, 
         oldOwnerAddress: string, oldName: string) {
-        console.log("LANDLLDDL: ", landHolding);
         const response = await fetch(`/api/updateLand`, {
             method: "PUT",
             headers: {
@@ -133,6 +132,31 @@ export class Utils {
             body: JSON.stringify({ landHoldings: landHoldings}),
         });
 
+        return this.ResponseResolver(response);
+    }
+
+    async DeleteOwner(ownerName: string, ownerAddress: string): Promise<[boolean, string | null]> {
+        const response = await fetch("/api/deleteOwner", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ownerName, ownerAddress }),
+        });
+    
+        return this.ResponseResolver(response);
+    }
+
+    async DeleteLandHolding(landName: string, ownerName: string, ownerAddress: string): Promise<[boolean, string | null]> {
+        console.log("WE GOT PASSED IN: ", landName, ownerName, ownerAddress)
+        const response = await fetch("/api/deleteLand", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ landName, ownerName, ownerAddress }),
+        });
+    
         return this.ResponseResolver(response);
     }
 

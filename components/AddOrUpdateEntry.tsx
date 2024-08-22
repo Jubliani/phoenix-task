@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { Utils } from "@/lib/utils";
 import OwnerFormInputs from "@/components/OwnerFormInputs";
 import LandHoldingFormInputs from "@/components/LandHoldingFormInputs";
+import { useRouter } from "next/navigation";
+
 
 interface AddOrUpdateEntryProps {
     isUpdating?: boolean;
@@ -16,6 +18,7 @@ interface AddOrUpdateEntryProps {
 const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[], backButton=true, isAddingLand=false}) => {
     const submitButtonText = isUpdating? "Update": "Submit";
     let utils = new Utils();
+    const router = useRouter();
     const formRef = useRef<HTMLFormElement | null>(null);
     const [landFormIndex, setLandFormIndex] = useState(0)
     const [landFormList, setLandFormList] = useState<number[]>([]);
@@ -70,14 +73,22 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         return valid0 && valid1;
     }
 
-    const updateOwner = async () => {
-        const [success, message] = await utils.PutOwner(utils.GetOwnerFormInfo(), properties[0], properties[3]);
-        if (success) {
-            showDataUploadError('');
-            alert("Owner updated successfully!")
+    const handleSuccessOrError = (success: boolean, successMessage: string, message: string | null) => {
+        if (!success) {
+            showDataUploadError(message as string);
             return;
         }
-        showDataUploadError(message as string);
+        showDataUploadError('');
+        alert(successMessage)
+        console.log("WE PUSHSSHIS")
+        router.push("/");
+        console.log("CAR PUSHED")
+        return;
+    }
+
+    const updateOwner = async () => {
+        const [success, message] = await utils.PutOwner(utils.GetOwnerFormInfo(), properties[0], properties[3]);
+        handleSuccessOrError(success, "Owner updated successfully!", message)
     }
 
     const updateLand = async () => {
@@ -90,12 +101,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         const [success, message] = await utils.PutLand(landForm,
             properties[0], properties[1], `${properties[5]}-${properties[6]}-${properties[7]}_${properties[2]}`
         );
-        if (success) {
-            showDataUploadError('');
-            alert("Land updated successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, "Land updated successfully!", message)
     }
 
     const addNewOwnerAndPossibleLandHoldings = async () => {
@@ -103,12 +109,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         } 
         const [success, message] = await utils.AddNewOwnerAndLandOwningsToDatabase();
-        if (success) {
-            showDataUploadError('');
-            alert("Info added successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, "Owner added successfully!", message)
     }
 
     const addLandToOwner = async () => {
@@ -116,12 +117,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         } 
         const [success, message] = await utils.AddLandOwningToDatabase(properties[0], properties[1])
-        if (success) {
-            showDataUploadError('');
-            alert("Land added successfully!")
-            return;
-        }
-        showDataUploadError(message as string);
+        handleSuccessOrError(success, "Land added successfully!", message)
     }
 
     const handleSubmit = (e: React.FormEvent) => {
