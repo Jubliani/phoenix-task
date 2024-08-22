@@ -5,18 +5,13 @@ type OwnerInputsProps = {
   properties?: any[];
   };
 
-const OwnerFormInputs: React.FC<OwnerInputsProps> = ({properties=[]}) => {
-  const [ownerName, setOwnerName] = useState('');
-  const [entityType, setEntityType] = useState('');
-  const [ownerType, setOwnerType] = useState('');
-  const [address, setAddress] = useState('');
-
-  if (properties.length > 0) {
-    const setArray = [setOwnerName, setEntityType, setOwnerType, setAddress]
-    for (let i = 0; i < properties.length; i++) {
-      setArray[i](properties[i])
-    }
-  }
+const OwnerFormInputs: React.FC<OwnerInputsProps> = ({ 
+  properties=['','','',''] 
+}) => {
+  const [ownerName, setOwnerName] = useState(properties[0]);
+  const [entityType, setEntityType] = useState(properties[1]);
+  const [ownerType, setOwnerType] = useState(properties[2]);
+  const [address, setAddress] = useState(properties[3]);
 
   return (
     <>

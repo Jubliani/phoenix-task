@@ -6,25 +6,16 @@ type LandHoldingInputProps = {
 };
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
-  properties=[]
+  properties=['', '', '', '', '', '', 'Class A']
 }) => {
 
-  const [legalEntity, setLegalEntity] = useState('');
-  const [netMineralAcres, setNetMineralAcres] = useState('');
-  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState('');
-  const [section, setSection] = useState('');
-  const [township, setTownship] = useState('');
-  const [range, setRange] = useState('');
-  const [titleSource, setTitleSource] = useState('Class A');
-
-  if (properties.length > 0) {
-    const setArray = [setLegalEntity, setNetMineralAcres, setMineralOwnerRoyalty, setSection,
-      setTownship, setRange, setTitleSource
-    ]
-    for (let i = 0; i < properties.length; i++) {
-      setArray[i](properties[i])
-    }
-  }
+  const [legalEntity, setLegalEntity] = useState(properties[0]);
+  const [netMineralAcres, setNetMineralAcres] = useState(properties[1]);
+  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[2]);
+  const [section, setSection] = useState(properties[3]);
+  const [township, setTownship] = useState(properties[4]);
+  const [range, setRange] = useState(properties[5]);
+  const [titleSource, setTitleSource] = useState(properties[6]);
 
   return (
     <>
