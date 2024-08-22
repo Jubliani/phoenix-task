@@ -8,7 +8,9 @@ type LandHoldingInputProps = {
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
   properties=['', '', '', '', '', '', '', '', 'Class A', false],
 }) => {
-  console.log("PROERPWEORJWELFJW", properties.at(-1))
+  
+  const oldOwnerName = properties[0]
+  const oldOwnerAddress = properties[1]
   const [ownerName, setOwnerName] = useState(properties[0]);
   const [ownerAddress, setOwnerAddress] = useState(properties[1])
   const [legalEntity, setLegalEntity] = useState(properties[2]);
@@ -24,11 +26,11 @@ const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
     {properties.at(-1) && (
       <>
       <div>
-        <label htmlFor="Owner Name">
+        <label htmlFor="Owner">
           Owner Name
         </label>
         <input
-          name="Owner Name"
+          name="Owner"
           type="text"
           value={ownerName}
           onChange={(e) => setOwnerName(e.target.value)}

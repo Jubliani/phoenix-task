@@ -64,13 +64,33 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         return valid0 && valid1;
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!isUpdating) {
-            addData()
+    const updateOwner = async () => {
+        const [success, message] = await utils.PutOwner(utils.GetOwnerFormInfo(), properties[0], properties[3]);
+        if (success) {
+            showDataUploadError('');
+            alert("Owner updated successfully!")
             return;
         }
-    };
+        showDataUploadError(message as string);
+    }
+
+    const updateLand = async () => {
+        if (!validateRoyaltyAndAcres()) {
+            return;
+        }
+        let landForm = utils.GetLandHoldingFormInfo(
+            0, properties[0], properties[1], utils.LAND_HOLDING_UPDATE_FORM_LENGTH
+        )[0]
+        const [success, message] = await utils.PutLand(landForm,
+            properties[0], properties[1], `${properties[5]}-${properties[6]}-${properties[7]}_${properties[2]}`
+        );
+        if (success) {
+            showDataUploadError('');
+            alert("Land updated successfully!")
+            return;
+        }
+        showDataUploadError(message as string);
+    }
 
     const addData = async () => {
         if (!validateRoyaltyAndAcres()) {
@@ -84,6 +104,20 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         }
         showDataUploadError(message as string);
     }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!isUpdating) {
+            addData();
+            return;
+        }
+        if (isUpdatingOwner) {
+            updateOwner();
+            return;
+        }
+        updateLand();
+    };
+
     return (
         <div className="max-w-lg mx-auto p-4">
         <form ref={formRef} onSubmit={handleSubmit}>
@@ -92,13 +126,13 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             {!isUpdatingOwner && landFormList.map(() => (
                 <LandHoldingFormInputs />
             ))}
-        <span className="errorMsg"></span>
-        <button
-            type="submit"
-            className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600"
-        >
-            {submitButtonText}
-        </button>
+            <span className="errorMsg"></span>
+            <button
+                type="submit"
+                className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600"
+            >
+                {submitButtonText}
+            </button>
         </form>
         {!isUpdating && (
             <>
