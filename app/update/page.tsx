@@ -53,14 +53,14 @@ export default function Homepage() {
 
     const handleSubmitLand = async (e: React.FormEvent) => {
         e.preventDefault()
-        const result = await utils.ReadOwner(ownerName, ownerAddress)
+        const result = await utils.ReadLand(sectionName, legalEntity)
         if (!result[0]) {
             setError(result[1] as string);
         } else {
             setError('');
             setProperties(result[1] as string[]);
-            setIsUpdatingOwner(true);
-            setIsSearchingOwner(false);
+            setIsUpdatingLand(true);
+            setIsSearchingLand(false);
         }
     };
     return (
@@ -78,18 +78,18 @@ export default function Homepage() {
                 </div>
             </div> 
         )}
-        {isSearchingLand && (
+        {isSearchingOwner && (
             <>
-            {searchForm(handleSubmitLand, setLegalEntity, setSectionName, "Legal Entity", "Section Name (formatted as [Section]-[Township]-[Range])")}
+            {searchForm(handleSubmitOwner, setOwnerName, setOwnerAddress, "Owner Name", "Owner Address")}
             <button onClick={() => setIsSearchingOwner(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
             </>
         )}
-        {isSearchingOwner && (
+        {isSearchingLand && (
             <>
-            {searchForm(handleSubmitLand, setOwnerName, setOwnerAddress, "Owner Name", "Owner Address")}
-            <button onClick={() => setIsSearchingOwner(false)} className="w-full border border-solid border-black rounded">
+            {searchForm(handleSubmitLand, setLegalEntity, setSectionName, "Legal Entity", "Section Name (formatted as [Section]-[Township]-[Range])")}
+            <button onClick={() => setIsSearchingLand(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
             </>
@@ -104,7 +104,7 @@ export default function Homepage() {
         )}
         {isUpdatingLand && (
             <>
-            <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={false}/>
+            <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={false} properties={properties}/>
             <button onClick={() => setIsUpdatingLand(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>

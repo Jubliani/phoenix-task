@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             await client.connect();
 
-            // Choose a name for your collection
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
 

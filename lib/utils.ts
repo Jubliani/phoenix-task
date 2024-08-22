@@ -36,38 +36,33 @@ export class Utils {
         landHolding["Name"] = `${landHolding["Section Name"]}_${landHolding["Legal Entity"]}`
     }
 
-    async ReadOwner(ownerName: string, ownerAddress: string): Promise<[boolean, string[] | string | null]> {
+    ReadOwner(ownerName: string, ownerAddress: string): Promise<[boolean, string[] | string | null]> {
         const query = new URLSearchParams({
             name: ownerName,
             address: ownerAddress
         }).toString();
 
-        const response = await fetch(`/api/fetchOwner?${query}`, { method: "GET" });
-        const result = await response.json()
-
-        if (!response.ok) {
-            console.log("FETCH OWNER RESPONSE WAS NOT OKAY: ", result.message)
-            return [false, result.message]
-        }
-        console.log("FETCH OWNER RESULT MESSAGE: ", Object.values(result).slice(1,5))
-        return [true, Object.values(result).slice(1,5) as string[]]
+        return this.FetchHelper(query, 'fetchOwner', 1, 5)
     }
 
-    async ReadLand(sectionName: string, legalEntity: string): Promise<[boolean, string[] | string | null]> {
+    ReadLand(sectionName: string, legalEntity: string): Promise<[boolean, string[] | string | null]> {
         const name = `${sectionName}_${legalEntity}`;
+        console.log("NAMMMEIS: ", name)
         const query = new URLSearchParams({
             name: name,
         }).toString();
 
-        const response = await fetch(`/api/fetchLand?${query}`, { method: "GET" });
+        return this.FetchHelper(query, 'fetchLand', 3, 10)
+    }
+
+    async FetchHelper(query: string, fetchWhich: string, minValue: number, maxValue: number): Promise<[boolean, string[] | string | null]> {
+        const response = await fetch(`/api/${fetchWhich}?${query}`, { method: "GET" });
         const result = await response.json()
 
         if (!response.ok) {
-            console.log("FETCH OWNER RESPONSE WAS NOT OKAY: ", result.message)
             return [false, result.message]
         }
-        console.log("FETCH OWNER RESULT MESSAGE: ", Object.values(result).slice(1,5))
-        return [true, Object.values(result).slice(1,5) as string[]]
+        return [true, Object.values(result).slice(minValue, maxValue) as string[]]
     }
 
     async PostData(ownerData: { [key: string]: any }, landHoldings: any[]): Promise<[boolean, string | null]>  {

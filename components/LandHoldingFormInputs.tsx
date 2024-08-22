@@ -11,6 +11,7 @@ const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
 
   const [legalEntity, setLegalEntity] = useState(properties[0]);
   const [netMineralAcres, setNetMineralAcres] = useState(properties[1]);
+  console.log("TYPE OF: ", typeof(properties[1]))
   const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[2]);
   const [section, setSection] = useState(properties[3]);
   const [township, setTownship] = useState(properties[4]);
