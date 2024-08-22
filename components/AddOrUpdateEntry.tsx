@@ -1,7 +1,5 @@
 "use client";
 import Link from "next/link"
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { useState, useRef } from "react";
 import { Utils } from "@/lib/utils";
 import OwnerFormInputs from "@/components/OwnerFormInputs";
@@ -16,8 +14,6 @@ interface AddOrUpdateEntryProps {
 
 const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[]}) => {
     const submitButtonText = isUpdating? "Update": "Submit";
-    const { status } = useSession();
-    const router = useRouter();
     let utils = new Utils();
     const formRef = useRef<HTMLFormElement | null>(null);
     const [landFormIndex, setLandFormIndex] = useState(0)
@@ -87,15 +83,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         }
         showDataUploadError(message as string);
-    }
-
-    if (status === "loading") {
-        return (
-            <span className="text-[#888] text-sm mt-7">Loading...</span>
-        )
-    } else if (status !== "authenticated") {
-        router.push("/");
-        return
     }
     return (
         <div className="max-w-lg mx-auto p-4">
