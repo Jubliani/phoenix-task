@@ -103,8 +103,8 @@ export class Utils {
         return [true, Object.values(result).slice(minValue, maxValue) as string[]]
     }
 
-    async PostData(ownerData: { [key: string]: any }, landHoldings: any[]): Promise<[boolean, string | null]>  {
-        const response = await fetch("/api/addData", {
+    async PostOwnerAndLandOwnings(ownerData: { [key: string]: any }, landHoldings: any[]): Promise<[boolean, string | null]>  {
+        const response = await fetch("/api/addOwnerAndLandOwnings", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -115,12 +115,31 @@ export class Utils {
         return this.ResponseResolver(response);
     };
 
-    AppendDataToDatabase(): Promise<[boolean, string | null]>  {
+    AddNewOwnerAndLandOwningsToDatabase(): Promise<[boolean, string | null]>  {
         let ownerData = this.GetOwnerFormInfo()
         const landHoldings = this.GetLandHoldingFormInfo(
             this.OWNER_FORM_LENGTH, ownerData["Owner Name"], ownerData["Address"], this.LAND_HOLDING_FORM_LENGTH
         );
         ownerData["Total Number of Land Holdings"] = landHoldings.length;
-        return this.PostData(ownerData, landHoldings);
+        return this.PostOwnerAndLandOwnings(ownerData, landHoldings);
+    }
+
+    async PostLandOwningsToExistingOwner(landHoldings: any[]): Promise<[boolean, string | null]> {
+        const response = await fetch("/api/addLandOwningsToExistingOwner", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ landHoldings: landHoldings}),
+        });
+
+        return this.ResponseResolver(response);
+    }
+
+    AddLandOwningToDatabase(ownerName: string, ownerAddress: string): Promise<[boolean, string | null]> {
+        const landHoldings = this.GetLandHoldingFormInfo(
+            0, ownerName, ownerAddress, this.LAND_HOLDING_FORM_LENGTH
+        );
+        return this.PostLandOwningsToExistingOwner(landHoldings)
     }
 }

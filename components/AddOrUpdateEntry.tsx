@@ -98,11 +98,11 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         showDataUploadError(message as string);
     }
 
-    const addData = async () => {
+    const addNewOwnerAndPossibleLandHoldings = async () => {
         if (!validateRoyaltyAndAcres()) {
             return;
         } 
-        const [success, message] = await utils.AppendDataToDatabase();
+        const [success, message] = await utils.AddNewOwnerAndLandOwningsToDatabase();
         if (success) {
             showDataUploadError('');
             alert("Info added successfully!")
@@ -111,10 +111,27 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         showDataUploadError(message as string);
     }
 
+    const addLandToOwner = async () => {
+        if (!validateRoyaltyAndAcres()) {
+            return;
+        } 
+        const [success, message] = await utils.AddLandOwningToDatabase(properties[0], properties[1])
+        if (success) {
+            showDataUploadError('');
+            alert("Land added successfully!")
+            return;
+        }
+        showDataUploadError(message as string);
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (isAddingLand) {
+            addLandToOwner();
+            return
+        }
         if (!isUpdating) {
-            addData();
+            addNewOwnerAndPossibleLandHoldings();
             return;
         }
         if (isUpdatingOwner) {

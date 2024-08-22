@@ -85,7 +85,7 @@ export default function AddEntry() {
                 )}
                 {isAddingLand && !isSearchingLandOwner && (
                     <>
-                    <AddOrUpdateEntry isAddingLand={true} isUpdating={false} isUpdatingOwner={false} />
+                    <AddOrUpdateEntry isAddingLand={true} isUpdating={false} isUpdatingOwner={false} properties={[ownerName, ownerAddress]}/>
                     </>
                 )}
             </div>
