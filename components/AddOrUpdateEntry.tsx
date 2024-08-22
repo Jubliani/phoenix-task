@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { Utils } from "@/lib/utils";
 import OwnerFormInputs from "@/components/OwnerFormInputs";
 import LandHoldingFormInputs from "@/components/LandHoldingFormInputs";
+import { useRouter } from "next/navigation";
+
 
 interface AddOrUpdateEntryProps {
     isUpdating?: boolean;
@@ -16,6 +18,7 @@ interface AddOrUpdateEntryProps {
 const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[], backButton=true, isAddingLand=false}) => {
     const submitButtonText = isUpdating? "Update": "Submit";
     let utils = new Utils();
+    const router = useRouter();
     const formRef = useRef<HTMLFormElement | null>(null);
     const [landFormIndex, setLandFormIndex] = useState(0)
     const [landFormList, setLandFormList] = useState<number[]>([]);
@@ -71,12 +74,16 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
     }
 
     const handleSuccessOrError = (success: boolean, successMessage: string, message: string | null) => {
-        if (success) {
-            showDataUploadError('');
-            alert(successMessage)
+        if (!success) {
+            showDataUploadError(message as string);
             return;
         }
-        showDataUploadError(message as string);
+        showDataUploadError('');
+        alert(successMessage)
+        console.log("WE PUSHSSHIS")
+        router.push("/");
+        console.log("CAR PUSHED")
+        return;
     }
 
     const updateOwner = async () => {

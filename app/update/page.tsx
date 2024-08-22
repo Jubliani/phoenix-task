@@ -70,6 +70,7 @@ export default function Homepage() {
             return;
         }
         alert("Owner deleted successfully!");
+        router.push("/");
     }
 
     const deleteLandHolding = async () => {
@@ -80,6 +81,7 @@ export default function Homepage() {
             return;
         }
         alert("Land holding deleted successfully!");
+        router.push("/");
     }
 
     return (
