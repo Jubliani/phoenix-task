@@ -37,12 +37,12 @@ export default function Homepage() {
         const result = await utils.ReadOwner(ownerName, ownerAddress, 1, 5)
         if (!result[0]) {
             setError(result[1] as string);
-        } else {
-            setError('');
-            setProperties(result[1] as (string | boolean)[]);
-            setIsUpdatingOwner(true);
-            setIsSearchingOwner(false);
+            return;
         }
+        setError('');
+        setProperties(result[1] as (string | boolean)[]);
+        setIsUpdatingOwner(true);
+        setIsSearchingOwner(false);
     };
 
     const handleSubmitLand = async (e: React.FormEvent) => {
@@ -50,15 +50,25 @@ export default function Homepage() {
         const result = await utils.ReadLand(sectionName, legalEntity, 1, 10)
         if (!result[0]) {
             setError(result[1] as string);
-        } else {
-            let landProperties = (result[1] as (string | boolean)[])
-            landProperties.push(true)
-            setError('');
-            setProperties(landProperties);
-            setIsUpdatingLand(true);
-            setIsSearchingLand(false);
+            return;
         }
+        let landProperties = (result[1] as (string | boolean)[])
+        landProperties.push(true)
+        setError('');
+        setProperties(landProperties);
+        setIsUpdatingLand(true);
+        setIsSearchingLand(false);
     };
+
+    const deleteOwner = async () => {
+        const result = await utils.DeleteOwner(ownerName, ownerAddress);
+        if (!result[0]) {
+            alert("ERROR: Something went wrong. Owner couldn't be deleted!");
+            return;
+        }
+        alert("Owner deleted successfully!");
+    }
+
     return (
         <>
         {(!isSearchingOwner && !isUpdatingOwner) && (!isSearchingLand && !isUpdatingLand) && (
@@ -97,6 +107,9 @@ export default function Homepage() {
         {isUpdatingOwner && (
             <>
             <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={true} properties={properties}/>
+            <button onClick={() => deleteOwner()} className="m-3 py-2 px-4 rounded-md text-white bg-red-600">
+                Delete Owner
+            </button>
             <button onClick={() => setIsUpdatingOwner(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
