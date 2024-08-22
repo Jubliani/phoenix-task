@@ -26,18 +26,18 @@ export default function AddEntry() {
 
     const handleSubmitOwnerSearch = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
         const result = await utils.ReadOwner(ownerName, ownerAddress, 1, 5)
         if (!result[0]) {
             setError(result[1] as string);
-        } else {
-            setError('');
-            setOwnerName((result[1] as string[])[0])
-            setOwnerAddress((result[1] as string[])[3])
-            console.log(ownerName, ownerAddress)
-            setIsAddingLand(true);
-            setIsSearchingLandOwner(false);
+            return;
         }
-    }
+        setOwnerName((result[1] as string[])[0])
+        setOwnerAddress((result[1] as string[])[3])
+        console.log(ownerName, ownerAddress)
+        setIsAddingLand(true);
+        setIsSearchingLandOwner(false);
+}
 
     if (status === "loading") {
         return (

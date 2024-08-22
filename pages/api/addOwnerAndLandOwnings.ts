@@ -20,13 +20,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             if (existingOwner) {
                 res.status(409).json({ message: "ERROR: An owner with the same name and address already exists!" });
-            } else {
-                await ownerCollection.insertOne(owner);
-                if (landHoldings.length > 0) {
-                    await landCollection.insertMany(landHoldings);
-                }
-                res.status(201).json({ message: "Data saved successfully!" });
+                throw new Error("ERROR: An owner with the same name and address already exists!")
             }
+
+            for (const landHolding of landHoldings) {
+                const foundExistingLandCollection = await landCollection.findOne({
+                    'Name': landHolding['Name']
+                })
+
+                if (foundExistingLandCollection) {
+                    res.status(400).json({ message: "ERROR: One or more land holdings already have an owner!" });
+                    throw new Error("ERROR: One or more land holdings already have an owner!")
+                }
+            }
+            await ownerCollection.insertOne(owner);
+            if (landHoldings.length > 0) {
+                await landCollection.insertMany(landHoldings);
+            }
+            res.status(201).json({ message: "Data saved successfully!" });
 
             res.status(201).json({ message: "Data saved successfully!" });
         } catch (error) {

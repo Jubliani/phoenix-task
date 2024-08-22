@@ -34,12 +34,12 @@ export default function Homepage() {
 
     const handleSubmitOwner = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError('');
         const result = await utils.ReadOwner(ownerName, ownerAddress, 1, 5)
         if (!result[0]) {
             setError(result[1] as string);
             return;
         }
-        setError('');
         setProperties(result[1] as (string | boolean)[]);
         setIsUpdatingOwner(true);
         setIsSearchingOwner(false);
@@ -47,6 +47,7 @@ export default function Homepage() {
 
     const handleSubmitLand = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError('');
         const result = await utils.ReadLand(sectionName, legalEntity, 1, 10)
         if (!result[0]) {
             setError(result[1] as string);
@@ -54,7 +55,6 @@ export default function Homepage() {
         }
         let landProperties = (result[1] as (string | boolean)[])
         landProperties.push(true)
-        setError('');
         setProperties(landProperties);
         setOwnerName(landProperties[0] as string)
         setOwnerAddress(landProperties[1] as string)
