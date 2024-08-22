@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "DELETE") {
-        const { ownerName, ownerAddress } = req.body;
+        const { landName, ownerName, ownerAddress } = req.body;
 
         const client = new MongoClient(process.env.MONGODB_DATA_URI as string);
         try {
@@ -11,22 +11,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
 
-            const deletedOwner = await ownerCollection.deleteOne({
-                'Owner Name': ownerName,
-                'Address': ownerAddress
+            const deletedLand = await landCollection.deleteOne({
+                'Name': landName,
             });
 
-            if (deletedOwner.deletedCount === 0) {
-                res.status(404).json({ message: "Owner not found!" });
+            if (deletedLand.deletedCount === 0) {
+                res.status(404).json({ message: "Land holding not found!" });
                 return;
             }
+            console.log("THE OWNER YOURE TRYING TO FIND: ", ownerName, ownerAddress)
+            await ownerCollection.updateOne(
+                { 'Owner Name': ownerName, 'Address': ownerAddress }, 
+                { $inc: {"Total Number of Land Holdings": -1 } }
+            );
 
-            await landCollection.deleteMany({
-                'Owner': ownerName,
-                'Owner Address': ownerAddress
-            });
-
-            res.status(200).json({ message: "Owners deleted successfully!" });
+            res.status(200).json({ message: "Land holding deleted successfully!" });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong!" });
         } finally {

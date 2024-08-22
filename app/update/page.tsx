@@ -56,6 +56,9 @@ export default function Homepage() {
         landProperties.push(true)
         setError('');
         setProperties(landProperties);
+        setOwnerName(landProperties[0] as string)
+        setOwnerAddress(landProperties[1] as string)
+        console.log("SET OWNER NAME: ", ownerName, ownerAddress, landProperties);
         setIsUpdatingLand(true);
         setIsSearchingLand(false);
     };
@@ -67,6 +70,16 @@ export default function Homepage() {
             return;
         }
         alert("Owner deleted successfully!");
+    }
+
+    const deleteLandHolding = async () => {
+        console.log("THE OWNEREKJRWLJEL:: ", ownerName, ownerAddress)
+        const result = await utils.DeleteLandHolding(`${sectionName}_${legalEntity}`, ownerName, ownerAddress);
+        if (!result[0]) {
+            alert("ERROR: Something went wrong. Owner couldn't be deleted!");
+            return;
+        }
+        alert("Land holding deleted successfully!");
     }
 
     return (
@@ -118,6 +131,9 @@ export default function Homepage() {
         {isUpdatingLand && (
             <>
             <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={false} properties={properties}/>
+            <button onClick={() => deleteLandHolding()} className="m-3 py-2 px-4 rounded-md text-white bg-red-600">
+                Delete Land Owning
+            </button>
             <button onClick={() => setIsUpdatingLand(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
