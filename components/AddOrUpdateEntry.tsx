@@ -9,10 +9,11 @@ interface AddOrUpdateEntryProps {
     isUpdating?: boolean;
     isUpdatingOwner?: boolean;
     properties?: any[];
-
+    backButton?: boolean;
+    isAddingLand?: boolean;
 }
 
-const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[]}) => {
+const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, isUpdatingOwner=false, properties=[], backButton=true, isAddingLand=false}) => {
     const submitButtonText = isUpdating? "Update": "Submit";
     let utils = new Utils();
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -21,11 +22,16 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
     const AddLandForm = () => {
         setLandFormIndex(landFormIndex + 1);
         setLandFormList([...landFormList, landFormIndex]);
+        console.log("LAND INDEX: ", landFormList, landFormIndex)
     }
 
     const RemoveLandForm = () => {
+        if (landFormList.length == 0) {
+            return;
+        }
         setLandFormIndex(landFormIndex - 1);
         setLandFormList(landFormList.slice(0, -1));
+        console.log("LAND INDEX: ", landFormList, landFormIndex)
     }
 
     const validateInput = (query: string, errorMsg: string, upperBound: number = Infinity) => {
@@ -121,10 +127,18 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
     return (
         <div className="max-w-lg mx-auto p-4">
         <form ref={formRef} onSubmit={handleSubmit}>
-            {(!isUpdating || isUpdatingOwner) && <OwnerFormInputs properties={properties}/>}
-            {(isUpdating && !isUpdatingOwner) && <LandHoldingFormInputs properties={properties}/>}
-            {!isUpdatingOwner && landFormList.map(() => (
+            {isAddingLand && (
+            <>
                 <LandHoldingFormInputs />
+                {landFormList.map((_, index) => (
+                <LandHoldingFormInputs key={index}/>
+                ))}
+            </>
+            )}
+            {(!isUpdating || isUpdatingOwner) && !isAddingLand && <OwnerFormInputs properties={properties}/>}
+            {(isUpdating && !isUpdatingOwner) && <LandHoldingFormInputs properties={properties}/>}
+            {!isUpdatingOwner && !isAddingLand && landFormList.map((_, index) => (
+                <LandHoldingFormInputs key={index}/>
             ))}
             <span className="errorMsg"></span>
             <button
@@ -142,7 +156,9 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             <button onClick={ RemoveLandForm } className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600">
                 Remove Land Holding
             </button> 
-            <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+            {backButton && (
+                <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+            )}
             </>
         )}
         </div>

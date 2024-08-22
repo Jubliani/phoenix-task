@@ -9,7 +9,6 @@ export default async function fetch(collectionName: string, query: { [key: strin
         await client.connect();
         const collection = client.db().collection(collectionName);
         const result = await collection.findOne(query);
-
         if (!result) {
             res.status(409).json({ message: `ERROR: ${item} does not exist!` });
         } else {

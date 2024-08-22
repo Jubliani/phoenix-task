@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 type LandHoldingInputProps = {
   properties?: any[];
+  key?: number;
 };
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({

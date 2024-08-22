@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Utils } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import SearchForm from "@/components/SearchForm";
 
 
 export default function Homepage() {
@@ -44,24 +45,6 @@ export default function Homepage() {
         }
     };
 
-    const searchForm = (submitFunc: (e: React.FormEvent) => void, setFirst: (e: string) => void, 
-    setSecond: (e: string) => void, firstLabel: string, secondLabel: string) => {
-        return (
-            <form onSubmit={submitFunc} className="flex flex-col gap-3">
-                <label>
-                    {firstLabel}
-                </label>
-                <input onChange={e => setFirst(e.target.value)} type="text" required/>
-                <label>
-                    {secondLabel}
-                </label>
-                <input onChange={e => setSecond(e.target.value)} type="text" required/>
-                <button type="submit" className="w-full border border-solid border-black rounded">Search</button>
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-            </form>
-        )
-    }
-
     const handleSubmitLand = async (e: React.FormEvent) => {
         e.preventDefault()
         const result = await utils.ReadLand(sectionName, legalEntity, 1, 10)
@@ -93,7 +76,9 @@ export default function Homepage() {
         )}
         {isSearchingOwner && (
             <>
-            {searchForm(handleSubmitOwner, setOwnerName, setOwnerAddress, "Owner Name", "Owner Address")}
+            <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress}
+            firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
+            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
             <button onClick={() => setIsSearchingOwner(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
@@ -101,7 +86,9 @@ export default function Homepage() {
         )}
         {isSearchingLand && (
             <>
-            {searchForm(handleSubmitLand, setLegalEntity, setSectionName, "Legal Entity", "Section Name (formatted as [Section]-[Township]-[Range])")}
+            <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName}
+            firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
+            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
             <button onClick={() => setIsSearchingLand(false)} className="w-full border border-solid border-black rounded">
                 Back
             </button>
