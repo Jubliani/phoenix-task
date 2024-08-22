@@ -78,7 +78,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             showDataUploadError(message as string);
             return;
         }
-        showDataUploadError('');
         alert(successMessage)
         console.log("WE PUSHSSHIS")
         router.push("/");
@@ -122,6 +121,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        showDataUploadError('');
         if (isAddingLand) {
             addLandToOwner();
             return

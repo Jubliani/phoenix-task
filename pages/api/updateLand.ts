@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log("EXISTING OWNER", existingOwner, landHolding['Owner'], landHolding['Owner Address']);
             if (!existingOwner) {
                 console.log("CANT UPDATE OWNER, OWNER DOESN'T EXIST")
-                res.status(404).json({ message: "ERROR: Owner doesn't exist!" });
+                res.status(400).json({ message: "ERROR: Owner doesn't exist!" });
                 throw new Error("ERROR: Owner doesn't exist!")
             }
 
