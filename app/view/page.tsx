@@ -11,19 +11,12 @@ import SearchForm from "@/components/SearchForm";
 export default function Homepage() {
     const { status } = useSession();
     const router = useRouter();
-    if (status === "loading") {
-        return (
-            <span className="text-[#888] text-sm mt-7">Loading...</span>
-        )
-    } else if (status !== "authenticated") {
-        router.push("/");
-        return
-    }
     let utils = new Utils();
     const [isSearchingOwner, setIsSearchingOwner] = useState(false);
     const [isSearchingLand, setIsSearchingLand] = useState(false);
     const [isViewingOwner, setIsViewingOwner] = useState(false);
     const [isViewingLand, setIsViewingLand] = useState(false);
+    const [isViewingLandOfOwner, setIsViewingLandOfOwner] = useState(false);
 
     const [ownerName, setOwnerName] = useState('');
     const [ownerAddress, setOwnerAddress] = useState('');
@@ -31,6 +24,7 @@ export default function Homepage() {
     const [sectionName, setSectionName] = useState('');
     const [properties, setProperties] = useState({});
     const [error, setError] = useState('');
+    const [landOfOwner, setLandOfOwner] = useState<[{[key: number]: string | {[key: string]: string}}]>();
 
     const handleSubmitOwner = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -53,7 +47,10 @@ export default function Homepage() {
             setError(result[1] as string);
             return;
         }
-        console.log("RETURNED LAND FROM OWNER IS: ", result[1]);
+        let listOfLand = (result[1] as [{ [key: number]: string | { [ key: string]: string;} }]);
+        setLandOfOwner(listOfLand);
+        console.log("RETURNED LAND FROM OWNER IS: ", listOfLand, typeof(listOfLand));
+        setIsViewingLandOfOwner(true)
     }
 
     const handleSubmitLand = async (e: React.FormEvent) => {
@@ -81,17 +78,17 @@ export default function Homepage() {
 
     const viewingTitle = (viewWhat: String) => {
         return (
-            <div className="grid grid-cols-2 gap-4 border-b-2 border-gray-300 pb-2 mb-2">
-                <div className="font-bold text-center col-span-2">{viewWhat}</div>
+            <div className="grid grid-cols-2 gap-4 border-b-2 pb-2 mb-2">
+                <div className="font-bold text-center col-span-2 text-xl">{viewWhat}</div>
             </div>
         )
     }
 
-    const viewingComponent = (viewWhat: string, includeOwner: boolean = false) => {
+    const viewingComponent = (viewWhat: string, properties: {}, includeOwner: boolean = false) => {
         return (
             <div className="w-full max-w-lg bg-white shadow-md rounded-lg">
                 <div className="p-4">
-                    {viewingTitle(viewWhat)}
+                    {viewWhat && viewingTitle(viewWhat)}
                     {Object.entries(properties).slice(0, 9).map(([key, value]) => (
                         <div key={key} className="grid grid-cols-2 gap-4 py-2 border-b border-gray-200">
                             <div className="text-gray-700">{key}</div>
@@ -113,6 +110,15 @@ export default function Homepage() {
                 </div>
             </div>
         )
+    }
+
+    if (status === "loading") {
+        return (
+            <span className="text-[#888] text-sm mt-7">Loading...</span>
+        )
+    } else if (status !== "authenticated") {
+        router.push("/");
+        return
     }
 
     return (
@@ -145,12 +151,24 @@ export default function Homepage() {
             </div>
         )}
         {isViewingOwner && (
-            <div className="min-h-screen flex flex-col items-center justify-center">
-                {viewingComponent("Owner Details")}
-                <button
-                    onClick={() => viewOwnerLand() }
+            <div className="min-h-screen flex flex-col items-center justify-center m-20">
+                {viewingComponent("Owner Details", properties)}
+                {(!isViewingLandOfOwner && <button
+                    onClick={() => viewOwnerLand()}
                     className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600"
-                >View {ownerName}'s land ownings </button>
+                >View {ownerName}'s land ownings </button>) || 
+                    <div className="font-bold text-xl text-center col-span-2 mt-5">Land Holdings</div>
+                 }
+                { landOfOwner && (
+                    <>
+                    {Object.entries(landOfOwner).map(([key, value]) => (
+                        <>
+                        <div className="pb-4" /> 
+                        {viewingComponent("", Object.fromEntries(Object.entries(value).slice(2, 11)))}
+                        </>
+                    ))}
+                    </>
+                )}
                 <button
                     onClick={() => {
                         setIsViewingOwner(false);
@@ -162,7 +180,7 @@ export default function Homepage() {
         )}
         {isViewingLand && (
             <div className="min-h-screen flex flex-col items-center justify-center">
-                {viewingComponent("Land Holding Details", true)}
+                {viewingComponent("Land Holding Details", properties, true)}
                 <button
                     onClick={() => {
                         setIsViewingLand(false);

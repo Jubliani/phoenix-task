@@ -18,8 +18,8 @@ const SearchForm: React.FC<SearchFormComponents> = ({
             <label>{secondLabel}</label>
             <input onChange={e => setSecond(e.target.value)} type="text" required className="p-2 border rounded-md"/>
             
-            <button type="submit" className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600">Search</button>
-            <button onClick={() => buttonFunc(false)} className="mt-4 py-2 px-4 rounded-md text-white bg-red-600">Back</button>
+            <button type="submit" className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600 w-1/2 mx-auto">Search</button>
+            <button onClick={() => buttonFunc(false)} className="mt-4 py-2 px-4 rounded-md text-white bg-red-600 w-1/2 mx-auto">Back</button>
         </form>
         </>
     )

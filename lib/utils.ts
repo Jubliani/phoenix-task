@@ -178,7 +178,7 @@ export class Utils {
         return this.PostLandOwningsToExistingOwner(landHoldings)
     }
 
-    async GetAllLandOfOwner(ownerName: string, ownerAddress: string): Promise<[boolean, {[key: string]: any} | string | null]> {
+    async GetAllLandOfOwner(ownerName: string, ownerAddress: string): Promise<[boolean, [{[key: number]: string | {[key: string]: string}}] | string | null]> {
         const query = new URLSearchParams({
             name: ownerName,
             address: ownerAddress
@@ -189,6 +189,6 @@ export class Utils {
         if (!response.ok) {
             return [false, result.message]
         }
-        return [true, Object.entries(result)]
+        return [true, result]
     }
 }
