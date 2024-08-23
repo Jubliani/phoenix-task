@@ -7,31 +7,30 @@ type LandHoldingInputProps = {
 };
 
 const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
-  properties=['', '', '', '', '', '', '', '', 'Class A', false],
+  properties=[{'Owner Name': '', 'Owner Address': ''}, '', '', '', '', '', '', 'Class A', false],
 }) => {
-  
   const oldOwnerName = properties[0]
   const oldOwnerAddress = properties[1]
-  const [ownerName, setOwnerName] = useState(properties[0]);
-  const [ownerAddress, setOwnerAddress] = useState(properties[1])
-  const [legalEntity, setLegalEntity] = useState(properties[2]);
-  const [netMineralAcres, setNetMineralAcres] = useState(properties[3]);
-  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[4]);
-  const [section, setSection] = useState(properties[5]);
-  const [township, setTownship] = useState(properties[6]);
-  const [range, setRange] = useState(properties[7]);
-  const [titleSource, setTitleSource] = useState(properties[8]);
+  const [ownerName, setOwnerName] = useState(properties[0]['Owner Name']);
+  const [ownerAddress, setOwnerAddress] = useState(properties[0]['Owner Address'])
+  const [legalEntity, setLegalEntity] = useState(properties[1]);
+  const [netMineralAcres, setNetMineralAcres] = useState(properties[2]);
+  const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(properties[3]);
+  const [section, setSection] = useState(properties[4]);
+  const [township, setTownship] = useState(properties[5]);
+  const [range, setRange] = useState(properties[6]);
+  const [titleSource, setTitleSource] = useState(properties[7]);
 
   return (
     <>
     {properties.at(-1) && (
       <>
       <div>
-        <label htmlFor="Owner">
+        <label htmlFor="Owner Name">
           Owner Name
         </label>
         <input
-          name="Owner"
+          name="Owner Name"
           type="text"
           value={ownerName}
           onChange={(e) => setOwnerName(e.target.value)}

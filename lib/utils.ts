@@ -14,25 +14,35 @@ export class Utils {
     }
     GetLandHoldingFormInfo(formOffset: number, ownerName: string, ownerAddress: string, maximumIndex: number): any[] {
         let landHoldings: any[] = []
-        let landHolding: { [key: string]: any } = {"Owner": ownerName, "Owner Address": ownerAddress};
-        if (maximumIndex == this.LAND_HOLDING_UPDATE_FORM_LENGTH) {
-            landHolding = {}
-        }
+        let landHolding: { [key: string]: any } = {"Owner": {
+            "Owner Name": ownerName, "Owner Address": ownerAddress
+        }};
         const form = document.forms[0];
         let index = 0;
-        for (const element of Array.from(form.elements).slice(formOffset)) {
-            if (index > maximumIndex && maximumIndex == this.LAND_HOLDING_UPDATE_FORM_LENGTH) {
-                break;
-            }
+        if (maximumIndex == this.LAND_HOLDING_UPDATE_FORM_LENGTH) {
+            index = 2
+            landHolding = {"Owner": { 
+                "Owner Name": (Array.from(form.elements)[0] as HTMLInputElement).value, 
+                "Owner Address": (Array.from(form.elements)[1] as HTMLInputElement).value
+            }};
+            console.log("INDEX SET TO 2")
+        }
+        for (const element of Array.from(form.elements).slice(formOffset + index)) {
             console.log("ELEMENT", element)
+            console.log("INDEX IS: ", index)
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
             landHolding[inputElement.name] = inputElement.value
-            index += 1; 
+            index += 1;
             if (index > maximumIndex) {
                 this.AddInferredInfoToLandHolding(landHolding);
                 landHoldings.push(landHolding);
+                if (maximumIndex == this.LAND_HOLDING_UPDATE_FORM_LENGTH) {
+                    break;
+                }
                 index = 0;
-                landHolding = {"Owner": ownerName, "Owner Address": ownerAddress};
+                landHolding = {"Owner": {
+                    "Owner Name": ownerName, "Owner Address": ownerAddress
+                }};
             }
         }
         return landHoldings
@@ -124,6 +134,7 @@ export class Utils {
     }
 
     async PostLandOwningsToExistingOwner(landHoldings: any[]): Promise<[boolean, string | null]> {
+        console.log("YOUR LAND OWNINGS IS: ", landHoldings)
         const response = await fetch("/api/addLandOwningsToExistingOwner", {
             method: "POST",
             headers: {

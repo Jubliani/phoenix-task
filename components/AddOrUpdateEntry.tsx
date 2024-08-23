@@ -95,10 +95,12 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         }
         let landForm = utils.GetLandHoldingFormInfo(
-            0, properties[0], properties[1], utils.LAND_HOLDING_UPDATE_FORM_LENGTH
+            0, properties[0]['Owner Name'], properties[0]['Owner Address'], utils.LAND_HOLDING_UPDATE_FORM_LENGTH
         )[0]
+        console.log("LAND FORM IS: ", landForm);
+        console.log("PROPERTIES IS: ", properties);
         const [success, message] = await utils.PutLand(landForm,
-            properties[0], properties[1], `${properties[5]}-${properties[6]}-${properties[7]}_${properties[2]}`
+            properties[0]['Owner Name'], properties[0]['Owner Address'], `${properties[4]}-${properties[5]}-${properties[6]}_${properties[1]}`
         );
         handleSuccessOrError(success, "Land updated successfully!", message)
     }
@@ -115,6 +117,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         if (!validateRoyaltyAndAcres()) {
             return;
         } 
+        console.log("ADDING LAND TO OWNER: ", properties)
         const [success, message] = await utils.AddLandOwningToDatabase(properties[0], properties[1])
         handleSuccessOrError(success, "Land added successfully!", message)
     }

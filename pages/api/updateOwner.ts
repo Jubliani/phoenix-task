@@ -15,7 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 'Address': ownerForm['Address']
             });
             if (changedOwners && existingOwner) {
-                console.log("CANT UPDATE OWNER, OWNER ALREADY EXISTS")
                 res.status(404).json({ message: "ERROR: Owner already exists!" });
                 throw new Error("ERROR: Owner already exists!")
             }
@@ -26,11 +25,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             );
 
             if (changedOwners) {
-                console.log("OWNER ", ownerForm['Owner Name'], "OWNER ADDRESS: ", ownerForm['Address'])
                 const landCollection = client.db().collection("land");
-                await landCollection.updateMany(
-                    { 'Owner': oldName, 'Owner Address': oldAddress},
-                    { $set: { 'Owner': ownerForm['Owner Name'], 'Owner Address': ownerForm['Address'] } }
+                const updatedLand = await landCollection.updateMany(
+                    { 
+                        'Owner.Owner Name': oldName, 
+                        'Owner.Owner Address': oldAddress 
+                    },
+                    { 
+                        $set: { 
+                            'Owner.Owner Name': ownerForm['Owner Name'], 
+                            'Owner.Owner Address': ownerForm['Address'] 
+                        }
+                    }
                 )
             }
             res.status(200).json({ message: "Data updated successfully!" });

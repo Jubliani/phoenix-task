@@ -10,10 +10,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await client.connect();
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
-            const changedOwners = (landHolding['Owner'] != oldOwnerName || landHolding['Owner Address'] != oldOwnerAddress);
+            const changedOwners = (landHolding['Owner']['Owner Name'] != oldOwnerName || landHolding['Owner']['Owner Address'] != oldOwnerAddress);
             const existingOwner = await ownerCollection.findOne({
-                'Owner Name': landHolding['Owner'],
-                'Address': landHolding['Owner Address']
+                'Owner Name': landHolding['Owner']['Owner Name'],
+                'Address': landHolding['Owner']['Owner Address']
             });
             if (!existingOwner) {
                 res.status(400).json({ message: "ERROR: Owner doesn't exist!" });
@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     { $inc: { 'Total Number of Land Holdings': -1} }
                 );
                 await ownerCollection.updateOne(
-                    { 'Owner Name': landHolding['Owner'], 'Address': landHolding['Owner Address']},
+                    { 'Owner Name': landHolding['Owner']['Owner Name'], 'Address': landHolding['Owner']['Owner Address']},
                     { $inc: { 'Total Number of Land Holdings': +1} }
                 );
             }

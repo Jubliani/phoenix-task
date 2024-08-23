@@ -26,7 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await landCollection.insertMany(landHoldings);
 
             await ownerCollection.updateOne(
-                { 'Owner Name': landHoldings[0]['Owner'], 'Address': landHoldings[0]['Owner Address'] }, 
+                { 'Owner Name': landHoldings[0]['Owner']['Owner Name'], 
+                    'Address': landHoldings[0]['Owner']['Owner Address'] }, 
                 { $inc: {"Total Number of Land Holdings": +landHoldings.length } }
             );
 

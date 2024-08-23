@@ -22,8 +22,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             await landCollection.deleteMany({
-                'Owner': ownerName,
-                'Owner Address': ownerAddress
+                'Owner.Owner Name': ownerName,
+                'Owner.Owner Address': ownerAddress
             });
 
             res.status(200).json({ message: "Owners deleted successfully!" });
