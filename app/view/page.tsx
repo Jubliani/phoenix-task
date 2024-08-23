@@ -22,7 +22,7 @@ export default function Homepage() {
     const [ownerAddress, setOwnerAddress] = useState('');
     const [legalEntity, setLegalEntity] = useState('');
     const [sectionName, setSectionName] = useState('');
-    const [properties, setProperties] = useState({});
+    const [properties, setProperties] = useState<{[key: string]: any}>({});
     const [error, setError] = useState('');
     const [landOfOwner, setLandOfOwner] = useState<[{[key: number]: string | {[key: string]: string}}]>();
 
@@ -49,7 +49,7 @@ export default function Homepage() {
         }
         let listOfLand = (result[1] as [{ [key: number]: string | { [ key: string]: string;} }]);
         setLandOfOwner(listOfLand);
-        setIsViewingLandOfOwner(true)
+        setIsViewingLandOfOwner(true);
     }
 
     const handleSubmitLand = async (e: React.FormEvent) => {
@@ -152,10 +152,10 @@ export default function Homepage() {
         {isViewingOwner && (
             <div className="min-h-screen flex flex-col items-center justify-center mt-10">
                 {viewingComponent("Owner Details", properties)}
-                {(!isViewingLandOfOwner && <button
+                {(!isViewingLandOfOwner && (properties['Total Number of Land Holdings'] > 0) && <button
                     onClick={() => viewOwnerLand()}
                     className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600"
-                >View {ownerName}'s land ownings </button>) || 
+                >View {ownerName}'s land ownings </button>) || (properties['Total Number of Land Holdings'] > 0) &&
                     <div className="font-bold text-xl text-center col-span-2 mt-5">Land Holdings</div>
                  }
                 { landOfOwner && (
@@ -173,7 +173,7 @@ export default function Homepage() {
                         setIsViewingOwner(false);
                         setIsSearchingOwner(true);
                         setIsViewingLandOfOwner(false);
-                        console.log("SDKFLSJFKLSDFLKSJDLSJDFSDLKSJDKFLDklj")
+                        setLandOfOwner([]);
                     }}
                     className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600"
                 >Back </button>
@@ -191,6 +191,7 @@ export default function Homepage() {
                 >Back </button>
             </div>
         )}
+        <div className="mb-5" />
         </>
     )
 }
