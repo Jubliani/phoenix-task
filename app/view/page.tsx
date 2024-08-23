@@ -23,7 +23,7 @@ export default function Homepage() {
     const [sectionName, setSectionName] = useState('');
     const [properties, setProperties] = useState<{[key: string]: any}>({});
     const [error, setError] = useState('');
-    const [landOfOwner, setLandOfOwner] = useState<[{[key: number]: string | {[key: string]: string}}]>();
+    const [landOfOwner, setLandOfOwner] = useState<[{[key: number]: string | {[key: string]: string}}] | []>();
 
     useEffect (() => {
         setError('');
