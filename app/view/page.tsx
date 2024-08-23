@@ -126,13 +126,13 @@ export default function Homepage() {
         {(!isSearchingOwner && !isViewingOwner) && (!isSearchingLand && !isViewingLand) && (
             <div className="grid place-items-center h-screen">
                 <div className="grid">
-                    <button onClick={() => setIsSearchingOwner(true)} className="w-full border border-solid border-black rounded">
+                    <button onClick={() => setIsSearchingOwner(true)} className="btn-continue">
                         Search for an owner
                     </button>
-                    <button onClick={() => setIsSearchingLand(true)} className="w-full border border-solid border-black rounded">
+                    <button onClick={() => setIsSearchingLand(true)} className="btn-continue">
                         Search for a land holding
                     </button>
-                    <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+                    <Link href="/" className="btn-back" >Back</Link>
                 </div>
             </div> 
         )}
@@ -151,7 +151,7 @@ export default function Homepage() {
             </div>
         )}
         {isViewingOwner && (
-            <div className="min-h-screen flex flex-col items-center justify-center m-20">
+            <div className="min-h-screen flex flex-col items-center justify-center mt-10">
                 {viewingComponent("Owner Details", properties)}
                 {(!isViewingLandOfOwner && <button
                     onClick={() => viewOwnerLand()}

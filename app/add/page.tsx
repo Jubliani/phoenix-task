@@ -56,26 +56,26 @@ export default function AddEntry() {
     return (
         <>
             {!isAddingOwner && !isAddingLand && (
-                <>
-                <button onClick={() => setIsAddingOwner(true)} className="w-full border border-solid border-black rounded">
-                    Add a new owner
-                </button>
-                <button onClick={() => {
-                    setIsSearchingLandOwner(true);
-                    setIsAddingLand(true);
-                }} className="w-full border border-solid border-black rounded">
-                    Add a land holding to an existing owner
-                </button>
-                <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
-                </>
+                <div className="flex min-h-screen flex-col items-center justify-center">
+                    <button onClick={() => setIsAddingOwner(true)} className="btn-continue">
+                        Add a new owner
+                    </button>
+                    <button onClick={() => {
+                        setIsSearchingLandOwner(true);
+                        setIsAddingLand(true);
+                    }} className="btn-continue">
+                        Add a land holding to an existing owner
+                    </button>
+                    <Link href="/" className="btn-back" >Back</Link>
+                </div>
             )}
             {isAddingOwner && (
-                <>
+                <div className="min-h-screen flex flex-col items-center justify-center">
                 <AddOrUpdateEntry backButton={false}/>
                 <button onClick={() => {
                     setIsAddingOwner(false);
                 }} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</button>
-                </>
+                </div>
             )}
             {isSearchingLandOwner && (
                 <div className="min-h-screen flex flex-col items-center justify-center">
