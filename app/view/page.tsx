@@ -172,6 +172,8 @@ export default function Homepage() {
                     onClick={() => {
                         setIsViewingOwner(false);
                         setIsSearchingOwner(true);
+                        setIsViewingLandOfOwner(false);
+                        console.log("SDKFLSJFKLSDFLKSJDLSJDFSDLKSJDKFLDklj")
                     }}
                     className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600"
                 >Back </button>

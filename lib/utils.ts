@@ -28,7 +28,7 @@ export class Utils {
         }
         for (const element of Array.from(form.elements).slice(formOffset + index)) {
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
-            if (index == 3 || index == 4) {
+            if (inputElement.name == 'Mineral Owner Royalty (%)' || inputElement.name == 'Net Mineral Acres') {
                 landHolding[inputElement.name] = parseFloat(inputElement.value).toString();
             } else {
                 landHolding[inputElement.name] = inputElement.value
