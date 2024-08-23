@@ -37,7 +37,13 @@ export default function AddEntry() {
         console.log(ownerName, ownerAddress)
         setIsAddingLand(true);
         setIsSearchingLandOwner(false);
-}
+    }
+
+    const setVarsAndErrors = (param: boolean) => {
+        setIsSearchingLandOwner(param);
+        setIsAddingLand(param);
+        setError('')
+    }
 
     if (status === "loading") {
         return (
@@ -48,47 +54,41 @@ export default function AddEntry() {
         return
     }
     return (
-         <div className="grid place-items-center h-screen">
-            <div className="grid">
-                {!isAddingOwner && !isAddingLand && (
-                    <>
-                    <button onClick={() => setIsAddingOwner(true)} className="w-full border border-solid border-black rounded">
+        <>
+            {!isAddingOwner && !isAddingLand && (
+                <div className="flex min-h-screen flex-col items-center justify-center">
+                    <button onClick={() => setIsAddingOwner(true)} className="btn-continue">
                         Add a new owner
                     </button>
                     <button onClick={() => {
                         setIsSearchingLandOwner(true);
                         setIsAddingLand(true);
-                    }} className="w-full border border-solid border-black rounded">
+                    }} className="btn-continue">
                         Add a land holding to an existing owner
                     </button>
-                    <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
-                    </>
-                )}
-                {isAddingOwner && (
-                    <>
-                    <AddOrUpdateEntry backButton={false}/>
-                    <button onClick={() => {
-                        setIsAddingOwner(false);
-                    }} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</button>
-                    </>
-                )}
-                {isSearchingLandOwner && (
-                    <>
-                    <SearchForm submitFunc={handleSubmitOwnerSearch} setFirst={setOwnerName} setSecond={setOwnerAddress} firstLabel="Owner Name" secondLabel="Owner Address" />
+                    <Link href="/" className="btn-back" >Back</Link>
+                </div>
+            )}
+            {isAddingOwner && (
+                <div className="min-h-screen flex flex-col items-center justify-center">
+                <AddOrUpdateEntry backButton={false}/>
+                <button onClick={() => {
+                    setIsAddingOwner(false);
+                }} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</button>
+                </div>
+            )}
+            {isSearchingLandOwner && (
+                <div className="min-h-screen flex flex-col items-center justify-center">
+                    <SearchForm submitFunc={handleSubmitOwnerSearch} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setVarsAndErrors}
+                    firstLabel="Owner Name" secondLabel="Owner Address" />
                     {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-                    <button onClick={() => {
-                        setIsSearchingLandOwner(false);
-                        setIsAddingLand(false);
-                        setError('');
-                    }} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</button>
-                    </>
-                )}
-                {isAddingLand && !isSearchingLandOwner && (
-                    <>
-                    <AddOrUpdateEntry isAddingLand={true} isUpdating={false} isUpdatingOwner={false} properties={[ownerName, ownerAddress]}/>
-                    </>
-                )}
-            </div>
-        </div>
+                </div>
+            )}
+            {isAddingLand && !isSearchingLandOwner && (
+                <>
+                <AddOrUpdateEntry isAddingLand={true} isUpdating={false} isUpdatingOwner={false} properties={[ownerName, ownerAddress]}/>
+                </>
+            )}
+        </>
     )
 }

@@ -1,9 +1,7 @@
 "use client";
-import AddData from "@/components/AddData"
-import UpdateData from "@/components/UpdateData"
-import ViewData from "@/components/ViewData"
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Link from "next/link"
 
 export default function Homepage() {
     const { status } = useSession();
@@ -19,9 +17,9 @@ export default function Homepage() {
     return (
         <div className="grid place-items-center h-screen">
             <div className="grid">
-                <AddData />
-                <UpdateData />
-                <ViewData />
+                <Link className="btn-continue" href="/add">Add an entry</Link>
+                <Link className="btn-continue" href="/update">Update an entry</Link>
+                <Link className="btn-continue" href="/view">View an entry</Link>
             </div>
         </div>
     )

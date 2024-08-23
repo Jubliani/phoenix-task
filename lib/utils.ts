@@ -53,22 +53,21 @@ export class Utils {
         landHolding["Name"] = `${landHolding["Section Name"]}_${landHolding["Legal Entity"]}`
     }
 
-    ReadOwner(ownerName: string, ownerAddress: string, minParam: number, maxParam: number): Promise<[boolean, string[] | string | null]> {
+    ReadOwner(ownerName: string, ownerAddress: string, minParam: number, maxParam: number, onlyValues: boolean = true): Promise<[boolean, {[key: string]: any} | string[] | string | null]> {
         const query = new URLSearchParams({
             name: ownerName,
             address: ownerAddress
         }).toString();
-
-        return this.FetchHelper(query, 'fetchOwner', minParam, maxParam)
+        return this.FetchHelper(query, 'fetchOwner', minParam, maxParam, onlyValues)
     }
 
-    ReadLand(sectionName: string, legalEntity: string, minParam: number, maxParam: number): Promise<[boolean, string[] | string | null]> {
+    ReadLand(sectionName: string, legalEntity: string, minParam: number, maxParam: number, onlyValues: boolean = true): Promise<[boolean, {[key: string]: any} | string[] | string | null]> {
         const name = `${sectionName}_${legalEntity}`;
         const query = new URLSearchParams({
             name: name,
         }).toString();
 
-        return this.FetchHelper(query, 'fetchLand', minParam, maxParam)
+        return this.FetchHelper(query, 'fetchLand', minParam, maxParam, onlyValues)
     }
 
     async ResponseResolver(response: Response): Promise<[boolean, string | null]> {
@@ -102,14 +101,17 @@ export class Utils {
         return this.ResponseResolver(response)
     }
 
-    async FetchHelper(query: string, fetchWhich: string, minValue: number, maxValue: number): Promise<[boolean, string[] | string | null]> {
+    async FetchHelper(query: string, fetchWhich: string, minValue: number, maxValue: number, onlyValues: boolean): Promise<[boolean, {[key: string]: any} | string[] | string | null]> {
         const response = await fetch(`/api/${fetchWhich}?${query}`, { method: "GET" });
-        const result = await response.json()
+        let result = await response.json()
 
         if (!response.ok) {
             return [false, result.message]
         }
-        return [true, Object.values(result).slice(minValue, maxValue) as string[]]
+        if (onlyValues) {
+            return [true, Object.values(result).slice(minValue, maxValue) as string[]]
+        }
+        return [true, Object.fromEntries(Object.entries(result).slice(minValue, maxValue))]
     }
 
     async PostOwnerAndLandOwnings(ownerData: { [key: string]: any }, landHoldings: any[]): Promise<[boolean, string | null]>  {
@@ -134,7 +136,6 @@ export class Utils {
     }
 
     async PostLandOwningsToExistingOwner(landHoldings: any[]): Promise<[boolean, string | null]> {
-        console.log("YOUR LAND OWNINGS IS: ", landHoldings)
         const response = await fetch("/api/addLandOwningsToExistingOwner", {
             method: "POST",
             headers: {
@@ -175,5 +176,19 @@ export class Utils {
             0, ownerName, ownerAddress, this.LAND_HOLDING_FORM_LENGTH
         );
         return this.PostLandOwningsToExistingOwner(landHoldings)
+    }
+
+    async GetAllLandOfOwner(ownerName: string, ownerAddress: string): Promise<[boolean, [{[key: number]: string | {[key: string]: string}}] | string | null]> {
+        const query = new URLSearchParams({
+            name: ownerName,
+            address: ownerAddress
+        }).toString();
+        const response = await fetch(`/api/fetchAllLandOfOwner?${query}`, { method: "GET" });
+        let result = await response.json()
+
+        if (!response.ok) {
+            return [false, result.message]
+        }
+        return [true, result]
     }
 }

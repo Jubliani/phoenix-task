@@ -2,9 +2,6 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AddData from "@/components/AddData";
-import UpdateData from "@/components/UpdateData"
-import ViewData from "@/components/ViewData"
 
 export default function Home() {
   const { status } = useSession();
@@ -14,11 +11,11 @@ export default function Home() {
     if (status === "authenticated") {
       return (
         <>
-        <AddData />
-        <UpdateData />
-        <ViewData />
+        <Link className="btn-continue" href="/add">Add an entry</Link>
+        <Link className="btn-continue" href="/update">Update an entry</Link>
+        <Link className="btn-continue" href="/view">View an entry</Link>
         <button
-          className="border border-solid border-black rounded"
+          className="btn-warn"
           onClick={() => {
             signOut({ redirect: false }).then(() => {
               router.push("/");
@@ -47,7 +44,7 @@ export default function Home() {
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-xl">Home</h1>
+      <div className="text-xl font-bold">Home</div>
       {showSession()}
     </main>
   );

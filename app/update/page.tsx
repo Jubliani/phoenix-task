@@ -6,19 +6,12 @@ import { Utils } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import SearchForm from "@/components/SearchForm";
+import '@/app/globals.css';
 
 
 export default function Homepage() {
     const { status } = useSession();
     const router = useRouter();
-    if (status === "loading") {
-        return (
-            <span className="text-[#888] text-sm mt-7">Loading...</span>
-        )
-    } else if (status !== "authenticated") {
-        router.push("/");
-        return
-    }
     let utils = new Utils();
     const [isSearchingOwner, setIsSearchingOwner] = useState(false);
     const [isSearchingLand, setIsSearchingLand] = useState(false);
@@ -85,40 +78,43 @@ export default function Homepage() {
         router.push("/");
     }
 
+    if (status === "loading") {
+        return (
+            <span className="text-[#888] text-sm mt-7">Loading...</span>
+        )
+    } else if (status !== "authenticated") {
+        router.push("/");
+        return
+    }
+
     return (
         <>
         {(!isSearchingOwner && !isUpdatingOwner) && (!isSearchingLand && !isUpdatingLand) && (
             <div className="grid place-items-center h-screen">
                 <div className="grid">
-                    <button onClick={() => setIsSearchingOwner(true)} className="w-full border border-solid border-black rounded">
+                    <button onClick={() => setIsSearchingOwner(true)} className="btn-continue">
                         Update an owner
                     </button>
-                    <button onClick={() => setIsSearchingLand(true)} className="w-full border border-solid border-black rounded">
+                    <button onClick={() => setIsSearchingLand(true)} className="btn-continue">
                         Update a land holding
                     </button>
-                    <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+                    <Link href="/" className="btn-back" >Back</Link>
                 </div>
             </div> 
         )}
         {isSearchingOwner && (
-            <>
-            <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress}
-            firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
-            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-            <button onClick={() => setIsSearchingOwner(false)} className="w-full border border-solid border-black rounded">
-                Back
-            </button>
-            </>
+            <div className="min-h-screen flex flex-col items-center justify-center">
+                <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setIsSearchingOwner}
+                firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
+                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+            </div>
         )}
         {isSearchingLand && (
-            <>
-            <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName}
-            firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
-            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-            <button onClick={() => setIsSearchingLand(false)} className="w-full border border-solid border-black rounded">
-                Back
-            </button>
-            </>
+            <div className="min-h-screen flex flex-col items-center justify-center">
+                <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName} buttonFunc={setIsSearchingLand}
+                firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
+                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+            </div>
         )}
         {isUpdatingOwner && (
             <>
