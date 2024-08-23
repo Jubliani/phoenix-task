@@ -91,8 +91,8 @@ export default function Homepage() {
                     {viewWhat && viewingTitle(viewWhat)}
                     {Object.entries(properties).slice(0, 9).map(([key, value]) => (
                         <div key={key} className="grid grid-cols-2 gap-4 py-2 border-b border-gray-200">
-                            <div className="text-gray-700">{key}</div>
-                            <div className="text-gray-900">{value as string}</div>
+                            <div className="text-gray-700 break-words">{key}</div>
+                            <div className="text-gray-900 break-words">{value as string}</div>
                         </div>
                     ))}
                     {includeOwner && (
@@ -101,8 +101,8 @@ export default function Homepage() {
                         {viewingTitle("Land Holding's Owner")}
                         {Object.entries(properties).slice(9, 14).map(([key, value]) => (
                             <div key={key} className="grid grid-cols-2 gap-4 py-2 border-b border-gray-200">
-                                <div className="text-gray-700">{key}</div>
-                                <div className="text-gray-900">{value as string}</div>
+                                <div className="text-gray-700 break-words">{key}</div>
+                                <div className="text-gray-900 break-words">{value as string}</div>
                             </div>
                         ))}
                         </>
