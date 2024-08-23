@@ -12,15 +12,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const ownerCollection = client.db().collection("owners");
             const landCollection = client.db().collection("land");
+            
+            let seenLandNames: string[] = []
 
             for (const landHolding of landHoldings) {
+
+                const landHoldingName = landHolding['Name']
+
+                if (seenLandNames.includes(landHoldingName)) {
+                    res.status(400).json({ message: "ERROR: One or more land holdings have the same name!" });
+                    throw new Error("ERROR: One or more land holdings have the same name!")
+                }
+
+                seenLandNames.push(landHoldingName)
+
                 const foundExistingLandCollection = await landCollection.findOne({
                     'Name': landHolding['Name']
                 })
 
                 if (foundExistingLandCollection) {
-                    res.status(400).json({ message: "ERROR: One or more land holdings already have an owner!" });
-                    throw new Error("ERROR: One or more land holdings already have an owner!")
+                    res.status(400).json({ message: "ERROR: One or more land holdings already exist in the database!" });
+                    throw new Error("ERROR: One or more land holdings already exist in the database!")
                 }
             }
             await landCollection.insertMany(landHoldings);

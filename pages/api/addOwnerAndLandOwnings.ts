@@ -23,7 +23,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 throw new Error("ERROR: An owner with the same name and address already exists!")
             }
 
+            let seenLandNames: string[] = []
+
             for (const landHolding of landHoldings) {
+
+                const landHoldingName = landHolding['Name']
+
+                if (seenLandNames.includes(landHoldingName)) {
+                    res.status(400).json({ message: "ERROR: One or more land holdings have the same name!" });
+                    throw new Error("ERROR: One or more land holdings have the same name!")
+                }
+
+                seenLandNames.push(landHoldingName)
+
                 const foundExistingLandCollection = await landCollection.findOne({
                     'Name': landHolding['Name']
                 })
