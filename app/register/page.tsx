@@ -36,7 +36,7 @@ export default function Register() {
                 <input
                 type="email"
                 placeholder="email"
-                className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+                className="w-full h-8 border border-solid border-black rounded p-2"
                 name="email"
                 />
         
@@ -45,14 +45,14 @@ export default function Register() {
                     <input
                     type="password"
                     placeholder="Password"
-                    className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+                    className="w-full h-8 border border-solid border-black rounded p-2"
                     name="password"
                     />
                 </div>
         
                 <button className="w-full border border-solid border-black py-1.5 mt-2.5 rounded
-                transition duration-150 ease hover:bg-black">
-                    Sign up
+                transition duration-150 ease hover:bg-gray-300">
+                    Sign Up
                 </button>
         
                 

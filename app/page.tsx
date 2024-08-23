@@ -35,7 +35,7 @@ export default function Home() {
       return (
         <Link
           href="/login"
-          className="border border-solid border-black rounded"
+          className="border border-solid border-black m-2 p-1 rounded transition duration-150 ease hover:bg-gray-300"
         >
           Sign In
         </Link>
