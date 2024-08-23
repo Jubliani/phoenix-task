@@ -51,8 +51,6 @@ export default function Homepage() {
         setProperties(landProperties);
         setOwnerName(ownerProperties['Owner Name'])
         setOwnerAddress(ownerProperties['Owner Address'])
-        console.log("SET OWNER NAME: ", ownerName, ownerAddress, landProperties);
-        console.log("SETRTING: ", ownerProperties['Owner Name'], ownerProperties['Owner Address']);
         setIsUpdatingLand(true);
         setIsSearchingLand(false);
     };
@@ -68,7 +66,6 @@ export default function Homepage() {
     }
 
     const deleteLandHolding = async () => {
-        console.log("THE OWNEREKJRWLJEL:: ", ownerName, ownerAddress)
         const result = await utils.DeleteLandHolding(`${sectionName}_${legalEntity}`, ownerName, ownerAddress);
         if (!result[0]) {
             alert("ERROR: Something went wrong. Owner couldn't be deleted!");

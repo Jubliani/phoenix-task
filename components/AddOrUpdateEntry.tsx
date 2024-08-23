@@ -25,7 +25,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
     const AddLandForm = () => {
         setLandFormIndex(landFormIndex + 1);
         setLandFormList([...landFormList, landFormIndex]);
-        console.log("LAND INDEX: ", landFormList, landFormIndex)
     }
 
     const RemoveLandForm = () => {
@@ -34,7 +33,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         }
         setLandFormIndex(landFormIndex - 1);
         setLandFormList(landFormList.slice(0, -1));
-        console.log("LAND INDEX: ", landFormList, landFormIndex)
     }
 
     const validateInput = (query: string, errorMsg: string, upperBound: number = Infinity) => {
@@ -79,9 +77,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             return;
         }
         alert(successMessage)
-        console.log("WE PUSHSSHIS")
         router.push("/");
-        console.log("CAR PUSHED")
         return;
     }
 
@@ -97,8 +93,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         let landForm = utils.GetLandHoldingFormInfo(
             0, properties[0]['Owner Name'], properties[0]['Owner Address'], utils.LAND_HOLDING_UPDATE_FORM_LENGTH
         )[0]
-        console.log("LAND FORM IS: ", landForm);
-        console.log("PROPERTIES IS: ", properties);
         const [success, message] = await utils.PutLand(landForm,
             properties[0]['Owner Name'], properties[0]['Owner Address'], `${properties[4]}-${properties[5]}-${properties[6]}_${properties[1]}`
         );
@@ -117,7 +111,6 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
         if (!validateRoyaltyAndAcres()) {
             return;
         } 
-        console.log("ADDING LAND TO OWNER: ", properties)
         const [success, message] = await utils.AddLandOwningToDatabase(properties[0], properties[1])
         handleSuccessOrError(success, "Land added successfully!", message)
     }

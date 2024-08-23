@@ -49,7 +49,6 @@ export default function Homepage() {
         }
         let listOfLand = (result[1] as [{ [key: number]: string | { [ key: string]: string;} }]);
         setLandOfOwner(listOfLand);
-        console.log("RETURNED LAND FROM OWNER IS: ", listOfLand, typeof(listOfLand));
         setIsViewingLandOfOwner(true)
     }
 

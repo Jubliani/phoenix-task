@@ -22,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(404).json({ message: "Land holding not found!" });
             return;
         }
-        console.log("THE OWNER YOURE TRYING TO FIND: ", ownerName, ownerAddress)
         await ownerCollection.updateOne(
             { 'Owner Name': ownerName, 'Address': ownerAddress }, 
             { $inc: {"Total Number of Land Holdings": -1 } }

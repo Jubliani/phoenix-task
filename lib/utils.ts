@@ -25,11 +25,8 @@ export class Utils {
                 "Owner Name": (Array.from(form.elements)[0] as HTMLInputElement).value, 
                 "Owner Address": (Array.from(form.elements)[1] as HTMLInputElement).value
             }};
-            console.log("INDEX SET TO 2")
         }
         for (const element of Array.from(form.elements).slice(formOffset + index)) {
-            console.log("ELEMENT", element)
-            console.log("INDEX IS: ", index)
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
             landHolding[inputElement.name] = inputElement.value
             index += 1;
