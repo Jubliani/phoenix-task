@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import AddOrUpdateEntry from "@/components/AddOrUpdateEntry";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchForm from "@/components/SearchForm";
 import Link from "next/link";
 import { Utils } from "@/lib/utils";
@@ -19,6 +19,10 @@ export default function AddEntry() {
     const [ownerName, setOwnerName] = useState('');
     const [ownerAddress, setOwnerAddress] = useState('');
     const [error, setError] = useState('');
+
+    useEffect (() => {
+        setError('');
+    }, [isSearchingLandOwner])
 
     const handleSubmitOwnerSearch = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -1,6 +1,5 @@
 "use client";
-import AddOrUpdateEntry from "@/components/AddOrUpdateEntry";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link";
 import { Utils } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -25,6 +24,10 @@ export default function Homepage() {
     const [properties, setProperties] = useState<{[key: string]: any}>({});
     const [error, setError] = useState('');
     const [landOfOwner, setLandOfOwner] = useState<[{[key: number]: string | {[key: string]: string}}]>();
+
+    useEffect (() => {
+        setError('');
+    }, [isSearchingOwner, isSearchingLand])
 
     const handleSubmitOwner = async (e: React.FormEvent) => {
         e.preventDefault()
