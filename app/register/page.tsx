@@ -29,7 +29,7 @@ export default function Register() {
             action={handleSubmit}
             className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
             border border-solid border-black bg-white rounded">
-                {error && <div className="">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
                 <h1 className="mb-5 w-full text-2xl font-bold">Register</h1>
         
                 <label className="w-full text-sm">Email</label>

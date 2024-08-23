@@ -141,8 +141,9 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
     };
 
     return (
-        <div className="max-w-lg mx-auto p-4">
-        <form ref={formRef} onSubmit={handleSubmit}>
+        <>
+        <div className="flex flex-col max-w-lg w-full">
+        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-3 p-6 bg-gray-200 shadow-md rounded-md max-w-lg w-full">
             {isAddingLand && (
             <>
                 <LandHoldingFormInputs />
@@ -153,31 +154,37 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             )}
             {(!isUpdating || isUpdatingOwner) && !isAddingLand && <OwnerFormInputs properties={properties}/>}
             {(isUpdating && !isUpdatingOwner) && <LandHoldingFormInputs properties={properties}/>}
-            {!isUpdatingOwner && !isAddingLand && landFormList.map((_, index) => (
-                <LandHoldingFormInputs key={index}/>
-            ))}
+            {!isUpdatingOwner && !isAddingLand &&
+                landFormList.map((_, index) => (
+                    <>
+                    <div className="m-4" />
+                    <LandHoldingFormInputs key={index}/>
+                    </>
+                ))
+            }
             <span className="errorMsg"></span>
             <button
                 type="submit"
-                className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600"
+                className="m-3 py-2 px-4 rounded-md text-white bg-green-600 font-bold w-64 mx-auto"
             >
                 {submitButtonText}
             </button>
         </form>
         {!isUpdating && (
             <>
-            <button onClick={ AddLandForm } className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600">
+            <button onClick={ AddLandForm } className="btn-continue mx-auto">
                 Add Land Holding
             </button>
-            <button onClick={ RemoveLandForm } className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600">
+            <button onClick={ RemoveLandForm } className="btn-continue mx-auto">
                 Remove Land Holding
             </button> 
             {backButton && (
-                <Link href="/" className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</Link>
+                <Link href="/" className="btn-back">Back</Link>
             )}
             </>
         )}
         </div>
+        </>
     )
 }
 

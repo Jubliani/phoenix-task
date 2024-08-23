@@ -106,37 +106,37 @@ export default function Homepage() {
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setIsSearchingOwner}
                 firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isSearchingLand && (
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName} buttonFunc={setIsSearchingLand}
                 firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isUpdatingOwner && (
-            <>
+            <div className="min-h-screen flex flex-col items-center justify-center">
             <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={true} properties={properties}/>
-            <button onClick={() => deleteOwner()} className="m-3 py-2 px-4 rounded-md text-white bg-red-600">
+            <button onClick={() => deleteOwner()} className="btn-warn">
                 Delete Owner
             </button>
-            <button onClick={() => setIsUpdatingOwner(false)} className="w-full border border-solid border-black rounded">
+            <button onClick={() => setIsUpdatingOwner(false)} className="btn-back">
                 Back
             </button>
-            </>
+            </div>
         )}
         {isUpdatingLand && (
-            <>
+            <div className="min-h-screen flex flex-col items-center justify-center">
             <AddOrUpdateEntry isUpdating={true} isUpdatingOwner={false} properties={properties}/>
-            <button onClick={() => deleteLandHolding()} className="m-3 py-2 px-4 rounded-md text-white bg-red-600">
+            <button onClick={() => deleteLandHolding()} className="btn-warn">
                 Delete Land Owning
             </button>
-            <button onClick={() => setIsUpdatingLand(false)} className="w-full border border-solid border-black rounded">
+            <button onClick={() => setIsUpdatingLand(false)} className="btn-back">
                 Back
             </button>
-            </>
+            </div>
         )}
         </>
     )

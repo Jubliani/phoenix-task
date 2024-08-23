@@ -140,14 +140,14 @@ export default function Homepage() {
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setIsSearchingOwner}
                 firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isSearchingLand && (
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName} buttonFunc={setIsSearchingLand}
                 firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isViewingOwner && (

@@ -18,6 +18,14 @@ body {
 .btn-warn {
   @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-red-600 w-64 text-center
 }
+
+.input-field {
+  @apply p-2 border rounded-md
+}
+
+.error-msg {
+  @apply text-red-500 font-bold text-2xl w-fit m-4
+}
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

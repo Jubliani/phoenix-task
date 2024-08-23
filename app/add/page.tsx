@@ -74,14 +74,14 @@ export default function AddEntry() {
                 <AddOrUpdateEntry backButton={false}/>
                 <button onClick={() => {
                     setIsAddingOwner(false);
-                }} className="m-3 py-2 px-4 rounded-md text-white bg-indigo-600" >Back</button>
+                }} className="btn-back" >Back</button>
                 </div>
             )}
             {isSearchingLandOwner && (
                 <div className="min-h-screen flex flex-col items-center justify-center">
                     <SearchForm submitFunc={handleSubmitOwnerSearch} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setVarsAndErrors}
                     firstLabel="Owner Name" secondLabel="Owner Address" />
-                    {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                    {error && <div className="error-msg">{error}</div>}
                 </div>
             )}
             {isAddingLand && !isSearchingLandOwner && (

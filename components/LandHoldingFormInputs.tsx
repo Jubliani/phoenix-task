@@ -25,145 +25,59 @@ const LandHoldingFormInputs: React.FC<LandHoldingInputProps> = ({
     <>
     {properties.at(-1) && (
       <>
-      <div>
-        <label htmlFor="Owner Name">
-          Owner Name
-        </label>
-        <input
-          name="Owner Name"
-          type="text"
-          value={ownerName}
-          onChange={(e) => setOwnerName(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
+        <label htmlFor="Owner Name">Owner Name</label>
+        <input name="Owner Name" type="text" value={ownerName} onChange={(e) => setOwnerName(e.target.value)}
+          className="input-field" required
         />
-      </div>
-      <div>
-        <label htmlFor="Owner Address">
-          Owner Address
-        </label>
-        <input
-          name="Owner Address"
-          type="text"
-          value={ownerAddress}
-          onChange={(e) => setOwnerAddress(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
+        <label htmlFor="Owner Address">Owner Address</label>
+        <input name="Owner Address" type="text" value={ownerAddress} onChange={(e) => setOwnerAddress(e.target.value)}
+          className="input-field" required
         />
-      </div>
       </>
     )}
-      <div>
-        <label htmlFor="Legal Entity">
-          Legal Entity
-        </label>
-        <input
-          name="Legal Entity"
-          type="text"
-          value={legalEntity}
-          onChange={(e) => setLegalEntity(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-        />
-      </div>
+      <label htmlFor="Legal Entity">Legal Entity</label>
+      <input name="Legal Entity" type="text" value={legalEntity} onChange={(e) => setLegalEntity(e.target.value)}
+        className="input-field" required
+      />
 
-      <div>
-        <label htmlFor="Net Mineral Acres">
-          Net Mineral Acres
-        </label>
-        <input
-          name="Net Mineral Acres"
-          type="number"
-          value={netMineralAcres}
-          onChange={(e) => setNetMineralAcres(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-        />
-        <span></span>
-      </div>
+      <label htmlFor="Net Mineral Acres">Net Mineral Acres</label>
+      <input name="Net Mineral Acres" type="number" value={netMineralAcres} onChange={(e) => setNetMineralAcres(e.target.value)}
+        className="input-field" required
+      />
+      <span></span>
 
-      <div>
-        <label htmlFor="Mineral Owner Royalty (%)">
-          Mineral Owner Royalty (%)
-        </label>
-        <input
-          name="Mineral Owner Royalty (%)"
-          type="number"
-          value={mineralOwnerRoyalty}
-          onChange={(e) => setMineralOwnerRoyalty(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-        />
-        <span></span>
-      </div>
+      <label htmlFor="Mineral Owner Royalty (%)">Mineral Owner Royalty (%)</label>
+      <input name="Mineral Owner Royalty (%)" type="number" value={mineralOwnerRoyalty} onChange={(e) => setMineralOwnerRoyalty(e.target.value)}
+        className="input-field" required
+      />
+      <span></span>
 
-      <div>
-        <label htmlFor="Section">
-          Section
-        </label>
-        <input
-          name="Section"
-          type="text"
-          value={section}
-          onChange={(e) => setSection(e.target.value)}
-          maxLength={3}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-          pattern="^[0-9]{3}$"
-          title="Input must be 3 numbers"
-        />
-      </div>
+      <label htmlFor="Section">Section</label>
+      <input name="Section" type="text" value={section} onChange={(e) => setSection(e.target.value)}
+        maxLength={3} className="input-field" required pattern="^[0-9]{3}$" title="Input must be 3 numbers"
+      />
 
-      <div>
-        <label htmlFor="Township">
-          Township
-        </label>
-        <input
-          name="Township"
-          type="text"
-          value={township}
-          onChange={(e) => setTownship(e.target.value)}
-          maxLength={4}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-          pattern="^[0-9]{3}[NS]$"
-          title="Input must start with 3 numbers and end in either N or S"
-        />
-      </div>
+      <label htmlFor="Township">Township</label>
+      <input name="Township" type="text" value={township} onChange={(e) => setTownship(e.target.value)}
+        maxLength={4} className="input-field" required pattern="^[0-9]{3}[NS]$"
+        title="Input must start with 3 numbers and end in either N or S"
+      />
 
-      <div>
-        <label htmlFor="Range">
-          Range
-        </label>
-        <input
-          name="Range"
-          type="text"
-          value={range}
-          onChange={(e) => setRange(e.target.value)}
-          maxLength={4}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-          required
-          pattern="^[0-9]{3}[EW]$"
-          title="Input must start with 3 numbers and end in either E or W"
-        />
-      </div>
+      <label htmlFor="Range">Range</label>
+      <input name="Range" type="text" value={range} onChange={(e) => setRange(e.target.value)} maxLength={4}
+        className="input-field" required pattern="^[0-9]{3}[EW]$"
+        title="Input must start with 3 numbers and end in either E or W"
+      />
 
-      <div>
-        <label htmlFor="Title Source">
-          Title Source
-        </label>
-        <select
-          name="Title Source"
-          value={titleSource}
-          onChange={(e) => setTitleSource(e.target.value)}
-          className="mt-1 mb-1 w-full sm:text-sm p-2"
-        >
-          <option value="Class A">Class A</option>
-          <option value="Class B">Class B</option>
-          <option value="Class C">Class C</option>
-          <option value="Class D">Class D</option>
-        </select>
-      </div>
+      <label htmlFor="Title Source">Title Source</label>
+      <select name="Title Source" value={titleSource} onChange={(e) => setTitleSource(e.target.value)}
+        className="input-field"
+      >
+        <option value="Class A">Class A</option>
+        <option value="Class B">Class B</option>
+        <option value="Class C">Class C</option>
+        <option value="Class D">Class D</option>
+      </select>
   </>
   );
 };
