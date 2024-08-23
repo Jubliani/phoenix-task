@@ -1,7 +1,15 @@
 import { MongoClient } from "mongodb";
+import { getServerSession } from "next-auth/next"
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function fetch(req: NextApiRequest, res: NextApiResponse) {
+    const session = await getServerSession(req, res, {})
+
+    if (!session) { 
+        res.status(405).json({ message: "You must be signed in!" });
+        return;
+    }
+    
     if (req.method !== "GET") {
         res.status(405).json({ message: "Method not allowed!" });
         return;
