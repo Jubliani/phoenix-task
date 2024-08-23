@@ -101,24 +101,18 @@ export default function Homepage() {
             </div> 
         )}
         {isSearchingOwner && (
-            <>
-            <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress}
-            firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
-            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-            <button onClick={() => setIsSearchingOwner(false)} className="w-full border border-solid border-black rounded">
-                Back
-            </button>
-            </>
+            <div className="min-h-screen flex flex-col items-center justify-center">
+                <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setIsSearchingOwner}
+                firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
+                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+            </div>
         )}
         {isSearchingLand && (
-            <>
-            <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName}
-            firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
-            {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
-            <button onClick={() => setIsSearchingLand(false)} className="w-full border border-solid border-black rounded">
-                Back
-            </button>
-            </>
+            <div className="min-h-screen flex flex-col items-center justify-center">
+                <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName} buttonFunc={setIsSearchingLand}
+                firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
+                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+            </div>
         )}
         {isUpdatingOwner && (
             <>
