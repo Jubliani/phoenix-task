@@ -28,7 +28,11 @@ export class Utils {
         }
         for (const element of Array.from(form.elements).slice(formOffset + index)) {
             const inputElement = element as HTMLInputElement | HTMLSelectElement;
-            landHolding[inputElement.name] = inputElement.value
+            if (index == 3 || index == 4) {
+                landHolding[inputElement.name] = parseFloat(inputElement.value).toString();
+            } else {
+                landHolding[inputElement.name] = inputElement.value
+            }
             index += 1;
             if (index > maximumIndex) {
                 this.AddInferredInfoToLandHolding(landHolding);
