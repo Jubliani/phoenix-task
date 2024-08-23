@@ -18,7 +18,7 @@ const SearchForm: React.FC<SearchFormComponents> = ({
             <label>{secondLabel}</label>
             <input onChange={e => setSecond(e.target.value)} type="text" required className="input-field"/>
             
-            <button type="submit" className="btn-continue w-1/2 mx-auto">Search</button>
+            <button type="submit" className="py-2 rounded-md text-white bg-green-600 font-bold w-40 mx-auto transition duration-150 hover:bg-green-500">Search</button>
             <button onClick={() => buttonFunc(false)} className="btn-back w-1/2 mx-auto">Back</button>
         </form>
         </>

@@ -55,40 +55,44 @@ export default function AddEntry() {
     }
     return (
         <>
+        <div className="flex min-h-screen flex-col items-center justify-center">
             {!isAddingOwner && !isAddingLand && (
-                <div className="flex min-h-screen flex-col items-center justify-center">
-                    <button onClick={() => setIsAddingOwner(true)} className="btn-continue">
-                        Add a new owner
-                    </button>
-                    <button onClick={() => {
-                        setIsSearchingLandOwner(true);
-                        setIsAddingLand(true);
-                    }} className="btn-continue">
-                        Add a land holding to an existing owner
-                    </button>
-                    <Link href="/" className="btn-back" >Back</Link>
-                </div>
+                <>
+                <button onClick={() => setIsAddingOwner(true)} className="btn-continue">
+                    Add a new owner
+                </button>
+                <button onClick={() => {
+                    setIsSearchingLandOwner(true);
+                    setIsAddingLand(true);
+                }} className="btn-continue">
+                    Add one or more land holdings to an existing owner
+                </button>
+                <Link href="/" className="btn-back" >Back</Link>
+                </>
             )}
             {isAddingOwner && (
-                <div className="min-h-screen flex flex-col items-center justify-center">
+                <>
+                <div className="m-5" />
                 <AddOrUpdateEntry backButton={false}/>
                 <button onClick={() => {
                     setIsAddingOwner(false);
                 }} className="btn-back" >Back</button>
-                </div>
+                <div className="m-5" />
+                </>
             )}
             {isSearchingLandOwner && (
-                <div className="min-h-screen flex flex-col items-center justify-center">
-                    <SearchForm submitFunc={handleSubmitOwnerSearch} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setVarsAndErrors}
-                    firstLabel="Owner Name" secondLabel="Owner Address" />
-                    {error && <div className="error-msg">{error}</div>}
-                </div>
+                <>
+                <SearchForm submitFunc={handleSubmitOwnerSearch} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setVarsAndErrors}
+                firstLabel="Owner Name" secondLabel="Owner Address" />
+                {error && <div className="error-msg">{error}</div>}
+                </>
             )}
             {isAddingLand && !isSearchingLandOwner && (
                 <>
                 <AddOrUpdateEntry isAddingLand={true} isUpdating={false} isUpdatingOwner={false} properties={[ownerName, ownerAddress]}/>
                 </>
             )}
+        </div>
         </>
     )
 }

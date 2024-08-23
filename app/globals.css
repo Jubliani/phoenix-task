@@ -8,15 +8,15 @@ body {
 }
 
 .btn-back {
-  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-purple-700 w-64 text-center
+  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-purple-700 w-20 text-center mx-auto transition duration-150 hover:bg-purple-500;
 }
 
 .btn-continue {
-  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-indigo-600 w-64 text-center
+  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-indigo-600 w-80 text-center transition duration-150 hover:bg-indigo-900;
 }
 
 .btn-warn {
-  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-red-600 w-64 text-center
+  @apply font-bold mt-4 py-2 px-4 rounded-md text-white bg-red-600 w-64 text-center transition duration-150 hover:bg-red-900;
 }
 
 .input-field {
@@ -26,32 +26,3 @@ body {
 .error-msg {
   @apply text-red-500 font-bold text-2xl w-fit m-4
 }
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */

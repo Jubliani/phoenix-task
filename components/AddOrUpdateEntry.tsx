@@ -165,7 +165,7 @@ const AddOrUpdateEntry: React.FC<AddOrUpdateEntryProps> = ({isUpdating=false, is
             <span className="errorMsg"></span>
             <button
                 type="submit"
-                className="m-3 py-2 px-4 rounded-md text-white bg-green-600 font-bold w-64 mx-auto"
+                className="m-3 py-2 px-4 rounded-md text-white bg-green-600 font-bold w-64 mx-auto transition duration-150 hover:bg-green-500"
             >
                 {submitButtonText}
             </button>

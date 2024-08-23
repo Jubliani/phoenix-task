@@ -93,10 +93,10 @@ export default function Homepage() {
             <div className="grid place-items-center h-screen">
                 <div className="grid">
                     <button onClick={() => setIsSearchingOwner(true)} className="btn-continue">
-                        Update an owner
+                        Update or delete an owner
                     </button>
                     <button onClick={() => setIsSearchingLand(true)} className="btn-continue">
-                        Update a land holding
+                        Update or delete a land holding
                     </button>
                     <Link href="/" className="btn-back" >Back</Link>
                 </div>
