@@ -158,7 +158,7 @@ export default function Homepage() {
                 {(!isViewingLandOfOwner && (properties['Total Number of Land Holdings'] > 0) && <button
                     onClick={() => viewOwnerLand()}
                     className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600"
-                >View {ownerName}'s land ownings </button>) || (properties['Total Number of Land Holdings'] > 0) &&
+                >View {ownerName}&apos;s land ownings </button>) || (properties['Total Number of Land Holdings'] > 0) &&
                     <div className="font-bold text-xl text-center col-span-2 mt-5">Land Holdings</div>
                  }
                 { landOfOwner && (
