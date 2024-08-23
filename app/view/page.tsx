@@ -91,8 +91,8 @@ export default function Homepage() {
                     {viewWhat && viewingTitle(viewWhat)}
                     {Object.entries(properties).slice(0, 9).map(([key, value]) => (
                         <div key={key} className="grid grid-cols-2 gap-4 py-2 border-b border-gray-200">
-                            <div className="text-gray-700">{key}</div>
-                            <div className="text-gray-900">{value as string}</div>
+                            <div className="text-gray-700 break-words">{key}</div>
+                            <div className="text-gray-900 break-words">{value as string}</div>
                         </div>
                     ))}
                     {includeOwner && (
@@ -101,8 +101,8 @@ export default function Homepage() {
                         {viewingTitle("Land Holding's Owner")}
                         {Object.entries(properties).slice(9, 14).map(([key, value]) => (
                             <div key={key} className="grid grid-cols-2 gap-4 py-2 border-b border-gray-200">
-                                <div className="text-gray-700">{key}</div>
-                                <div className="text-gray-900">{value as string}</div>
+                                <div className="text-gray-700 break-words">{key}</div>
+                                <div className="text-gray-900 break-words">{value as string}</div>
                             </div>
                         ))}
                         </>
@@ -140,14 +140,14 @@ export default function Homepage() {
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitOwner} setFirst={setOwnerName} setSecond={setOwnerAddress} buttonFunc={setIsSearchingOwner}
                 firstLabel={"Owner Name"} secondLabel={"Owner Address"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isSearchingLand && (
             <div className="min-h-screen flex flex-col items-center justify-center">
                 <SearchForm submitFunc={handleSubmitLand} setFirst={setLegalEntity} setSecond={setSectionName} buttonFunc={setIsSearchingLand}
                 firstLabel={"Legal Entity"} secondLabel={"Section Name (formatted as [Section]-[Township]-[Range])"} />
-                {error && <div className="bg-red-500 text-white p-1 w-fit">{error}</div>}
+                {error && <div className="error-msg">{error}</div>}
             </div>
         )}
         {isViewingOwner && (

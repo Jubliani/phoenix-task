@@ -13,10 +13,10 @@ const SearchForm: React.FC<SearchFormComponents> = ({
         <>
         <form onSubmit={submitFunc} className="flex flex-col gap-3 p-6 bg-white shadow-md rounded-md max-w-lg w-full">
             <label>{firstLabel}</label>
-            <input onChange={e => setFirst(e.target.value)} type="text" required className="p-2 border rounded-md"/>
+            <input onChange={e => setFirst(e.target.value)} type="text" required className="input-field"/>
             
             <label>{secondLabel}</label>
-            <input onChange={e => setSecond(e.target.value)} type="text" required className="p-2 border rounded-md"/>
+            <input onChange={e => setSecond(e.target.value)} type="text" required className="input-field"/>
             
             <button type="submit" className="btn-continue w-1/2 mx-auto">Search</button>
             <button onClick={() => buttonFunc(false)} className="btn-back w-1/2 mx-auto">Back</button>
